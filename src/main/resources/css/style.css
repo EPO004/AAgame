@@ -1,0 +1,58 @@
+Button{
+    -fx-border-width: 20;
+    -fx-fill-width: 20;
+    -fx-text-fill: white;
+    -fx-fit-to-width: 20;
+    -fx-background-color: Gray;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 5;
+    -fx-pref-width: 100px;
+    -fx-cursor: "Hand";
+}
+text-input{
+
+}
+TextField{
+    -fx-max-width: 300;
+    -fx-min-width: 300;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: transparent;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 1;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-cursor: text;
+    -fx-padding: 0.166667em 0em 0.333333em 0em;
+}
+PasswordField{
+    -fx-max-width: 200;
+    -fx-min-width: 100;
+    -fx-font-family: "Arial";
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: transparent;
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent transparent white transparent;
+    -fx-border-width: 1;
+    -fx-border-insets: 0 0 1 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-cursor: text;
+    -fx-padding: 0.166667em 0em 0.333333em 0em;
+}
+Button:hover {
+    -fx-background-color: linear-gradient(lightskyblue, dodgerblue);
+}

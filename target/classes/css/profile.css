@@ -1,0 +1,17 @@
+Button{
+    -fx-padding: 10;
+    -fx-border-insets: 10;
+    -fx-background-insets: 10;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 320;
+    -fx-pref-height: 60;
+    -fx-background-radius: 51;
+    -fx-border-radius: 51;
+    -fx-background-size: 40;
+    -fx-font-size: 20;
+    -fx-font-family: "Cambria Math";
+}
+Button:pressed {
+    -fx-background-color: linear-gradient(sandybrown, yellow);
+}

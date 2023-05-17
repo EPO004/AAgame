@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.sun.javafx.scene.control.IntegerField?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.GameSettingControl"
+            prefHeight="600.0" prefWidth="800.0"
+            stylesheets="@../css/setting.css">
+            <center>
+                <VBox alignment="CENTER" spacing="10">
+                    <HBox alignment="CENTER" spacing="10">
+                        <Button text="-" styleClass="ButtonSign" onMouseClicked="#diffDecrease"/>
+                        <Label text="Difficulty : " styleClass="Label" fx:id="difficulty" alignment="CENTER"/>
+                        <Button text="+" styleClass="ButtonSign" onMouseClicked="#diffIncrease"/>
+                    </HBox>
+                    <HBox alignment="CENTER" spacing="10">
+                        <Button text="-" styleClass="ButtonSign" onMouseClicked="#ballDecrease"/>
+                        <Label text="Balls : " fx:id="allBalls" styleClass="Label" alignment="CENTER"/>
+                        <Button text="+" styleClass="ButtonSign" onMouseClicked="#ballIncrease"/>
+                    </HBox>
+                    <Button text="Music : " fx:id="music" styleClass="Button" onMouseClicked="#musicState"/>
+                    <Button text="Sound : " fx:id="sound" styleClass="Button" onMouseClicked="#soundState"/>
+                    <Button text="Black White : " fx:id="blackWhite" styleClass="Button" onMouseClicked="#blackWhiteState"/>
+                    <Button text="back" onMouseClicked="#back" styleClass="Button"/>
+                </VBox>
+            </center>
+</BorderPane>

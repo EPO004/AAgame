@@ -12,6 +12,7 @@ public class User {
     private int hardPlayed;
     private int normalPlayed;
     private int easyPlayed;
+    private GameSetting gameSetting;
     private static ArrayList<User> users = new ArrayList<>();
     private static HashMap<String, User> userInfo = new HashMap<>();
 
@@ -19,6 +20,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.score = 0;
+        gameSetting = new GameSetting(2, 10, 1.5, 5, 5, 5, 1, true, true, 0);
         users.add(this);
         userInfo.put(username, this);
     }
@@ -101,5 +103,9 @@ public class User {
 
     public void setEasyPlayed(int easyPlayed) {
         this.easyPlayed = easyPlayed;
+    }
+
+    public GameSetting getGameSetting() {
+        return gameSetting;
     }
 }

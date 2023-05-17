@@ -19,7 +19,7 @@
                         <Button text="Start Game"/>
                         <Button text="Score Board" onMouseClicked="#scoreBoard"/>
                         <Button text="Profile" onMouseClicked="#profile"/>
-                        <Button text="Setting"/>
+                        <Button text="Setting" onMouseClicked="#setting"/>
                         <Button text="Exit" onMouseClicked="#exit"/>
                     </VBox>
                 </HBox>

@@ -87,7 +87,8 @@ public class LoginMenuControl {
 
     public void skip(MouseEvent mouseEvent) throws Exception {
         resetFields(this.username, this.password);
-        MainMenu mainMenu = new MainMenu(MainMenu.onMusic, null);
+        User user = new User("guest", null);
+        MainMenu mainMenu = new MainMenu(MainMenu.onMusic, user);
         mainMenu.start(LoginMenu.getStage());
     }
     public void resetFields(TextField username, PasswordField password){

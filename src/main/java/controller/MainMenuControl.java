@@ -1,10 +1,7 @@
 package controller;
 
 import javafx.scene.input.MouseEvent;
-import view.LoginMenu;
-import view.MainMenu;
-import view.ProfileMenu;
-import view.ScoreBoard;
+import view.*;
 
 public class MainMenuControl {
     public void exit(MouseEvent mouseEvent) throws Exception {
@@ -22,5 +19,10 @@ public class MainMenuControl {
     public void scoreBoard(MouseEvent mouseEvent) throws Exception {
         ScoreBoard scoreBoard = new ScoreBoard(null);
         scoreBoard.start(LoginMenu.getStage());
+    }
+
+    public void setting(MouseEvent mouseEvent) throws Exception {
+        GameSettingMenu gameSettingMenu = new GameSettingMenu();
+        gameSettingMenu.start(LoginMenu.getStage());
     }
 }

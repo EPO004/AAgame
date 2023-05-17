@@ -39,6 +39,11 @@ public class AvatarMenu extends Application {
         pane.getChildren().addAll(backGround);
         borderPane.setCenter(avatars());
         pane.getChildren().addAll(borderPane);
+        if (MainMenu.getUser()!=null){
+            ColorAdjust monochrome = new ColorAdjust();
+            monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+            pane.setEffect(monochrome);
+        }
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.show();

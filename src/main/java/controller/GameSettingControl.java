@@ -7,8 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.GameSetting;
 import model.User;
 import org.w3c.dom.Text;
+import view.GameSettingMenu;
 import view.LoginMenu;
 import view.MainMenu;
 
@@ -74,30 +76,37 @@ public class GameSettingControl {
         initialize();
     }
 
-    public void musicState(MouseEvent mouseEvent) {
+    public void musicState(MouseEvent mouseEvent) throws Exception {
         User user = MainMenu.getUser();
         if (user.getGameSetting().isMusicOn())
             user.getGameSetting().setMusicOn(false);
         else
             user.getGameSetting().setMusicOn(true);
         initialize();
+        makeChanges();
     }
 
-    public void soundState(MouseEvent mouseEvent) {
+    public void soundState(MouseEvent mouseEvent) throws Exception {
         User user = MainMenu.getUser();
         if (user.getGameSetting().isSoundOn())
             user.getGameSetting().setSoundOn(false);
         else
             user.getGameSetting().setSoundOn(true);
         initialize();
+        makeChanges();
     }
 
-    public void blackWhiteState(MouseEvent mouseEvent) {
+    public void blackWhiteState(MouseEvent mouseEvent) throws Exception {
         User user = MainMenu.getUser();
         if (user.getGameSetting().getIsBlackWhite()==0)
             user.getGameSetting().setIsBlackWhite(-1);
         else
             user.getGameSetting().setIsBlackWhite(0);
         initialize();
+        makeChanges();
+    }
+    public void makeChanges() throws Exception {
+        GameSettingMenu gameSettingMenu = new GameSettingMenu();
+        gameSettingMenu.start(LoginMenu.getStage());
     }
 }

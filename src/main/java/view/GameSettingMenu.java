@@ -3,6 +3,7 @@ package view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -23,6 +24,9 @@ public class GameSettingMenu extends Application {
         pane.getChildren().addAll(background);
         BorderPane borderPane = FXMLLoader.load(url);
         pane.getChildren().addAll(borderPane);
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+        pane.setEffect(monochrome);
         primaryStage.setScene(new Scene(pane));
         primaryStage.show();
     }

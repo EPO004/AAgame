@@ -3,6 +3,7 @@ package view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -28,6 +29,9 @@ public class ChangerMenu extends Application {
         pane.getChildren().addAll(backGround);
         BorderPane borderPane = FXMLLoader.load(url);
         pane.getChildren().addAll(borderPane);
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+        pane.setEffect(monochrome);
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         primaryStage.show();

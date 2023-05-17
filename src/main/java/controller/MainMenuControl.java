@@ -8,6 +8,7 @@ public class MainMenuControl {
         LoginMenu loginMenu = new LoginMenu();
         loginMenu.start(LoginMenu.getStage());
         MainMenu.musicStop();
+        MainMenu.setUser(null);
     }
 
     public void profile(MouseEvent mouseEvent) throws Exception {

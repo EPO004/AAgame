@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -36,6 +37,9 @@ public class ScoreBoard extends Application {
         Pane pane = new Pane();
         borderPane.setCenter(tableView());
         pane.getChildren().addAll(borderPane);
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+        pane.setEffect(monochrome);
         primaryStage.setScene(new Scene(pane));
         primaryStage.show();
     }

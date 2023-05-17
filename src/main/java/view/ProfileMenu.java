@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +50,9 @@ public class ProfileMenu extends Application {
         BorderPane borderPane2 = FXMLLoader.load(url);
         borderPane2.setTop(borderPane);
         pane.getChildren().addAll(borderPane2);
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+        pane.setEffect(monochrome);
         primaryStage.setScene(new Scene(pane));
         primaryStage.show();
     }

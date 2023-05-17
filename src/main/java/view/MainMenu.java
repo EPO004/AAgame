@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.User;
 
 import java.net.URL;
+import java.util.Locale;
 
 public class MainMenu extends Application {
     private static Stage stage;
@@ -30,7 +31,6 @@ public class MainMenu extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        MainMenu.stage = stage;
         audioClip = new AudioClip(getClass().getResource("/sound/mainMenu.mp3").toExternalForm());
         if (onMusic) audioClip.cycleCountProperty();
         URL url = MainMenu.class.getResource("/fxml/mainMenu.fxml");

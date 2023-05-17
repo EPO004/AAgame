@@ -86,7 +86,12 @@ public class ScoreBoard extends Application {
     }
     private HashMap hashMapDetail(int i) {
         HashMap<String, Object> item1 = new HashMap<>();
-        item1.put("rank", "#" + (i + 1));
+        Label label = new Label("#"+(i+1));
+        if (i==0) label.setStyle("-fx-background-color: gold ; -fx-font-size: 20; -fx-text-fill: black");
+        else if (i == 1) label.setStyle("-fx-background-color: silver; -fx-font-size: 20; -fx-text-fill: black");
+        else if(i==2) label.setStyle("-fx-background-color: saddlebrown; -fx-font-size: 20; -fx-text-fill: white");
+        else label.setStyle("-fx-font-size: 20; -fx-text-fill: white");
+        item1.put("rank", label);
         item1.put("avatar", new ImageView(new Image(users.get(i).getAvatarUrl(), 80, 60, false, false)));
         item1.put("username", users.get(i).getUsername());
         item1.put("score", users.get(i).getScore());

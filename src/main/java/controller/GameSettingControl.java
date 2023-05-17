@@ -23,9 +23,12 @@ public class GameSettingControl {
     private Label allBalls;
     @FXML
     private Button music;
+    @FXML
+    private Label mapBalls;
     @FXML 
     private Button blackWhite;
-
+    @FXML
+    private Label mapFormat;
     public void back(MouseEvent mouseEvent) throws Exception {
         MainMenu mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
         mainMenu.start(LoginMenu.getStage());
@@ -48,6 +51,7 @@ public class GameSettingControl {
     public void initialize(){
         difficulty.setText("Difficulty : "+MainMenu.getUser().getGameSetting().getDifficulty());
         allBalls.setText("Balls : "+ MainMenu.getUser().getGameSetting().getAllBalls());
+        mapFormat.setText("Map Format "+MainMenu.getUser().getGameSetting().getMapFormat());
         if (MainMenu.getUser().getGameSetting().isMusicOn())
             music.setText("Music : On");
         else
@@ -108,5 +112,32 @@ public class GameSettingControl {
     public void makeChanges() throws Exception {
         GameSettingMenu gameSettingMenu = new GameSettingMenu();
         gameSettingMenu.start(LoginMenu.getStage());
+    }
+
+    public void mapDecrease(MouseEvent mouseEvent) {
+        User user = MainMenu.getUser();
+        if (user.getGameSetting().getMapFormat()==1) return;
+        user.getGameSetting().changeFormat(-1);
+        initialize();
+    }
+
+    public void mapIncrease(MouseEvent mouseEvent) {
+        User user = MainMenu.getUser();
+        if (user.getGameSetting().getMapFormat()==4) return;
+        user.getGameSetting().changeFormat(1);
+        initialize();
+    }
+
+    public void mapBallDecrease(MouseEvent mouseEvent) {User user = MainMenu.getUser();
+        if (user.getGameSetting().getMapBallFormat()==5) return;
+        user.getGameSetting().changeMapBall(-1);
+        initialize();
+    }
+
+    public void mapBallIncrease(MouseEvent mouseEvent) {
+        User user = MainMenu.getUser();
+        if (user.getGameSetting().getMapBallFormat()==10) return;
+        user.getGameSetting().changeMapBall(+1);
+        initialize();
     }
 }

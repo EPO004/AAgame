@@ -21,7 +21,7 @@ public class RankingControl {
         Collections.sort(users, new Comparator<User>() {
             public int compare(User a, User b) {
                 if (a.getScore() == b.getScore())
-                    return b.getPlayedTimeSecond() - a.getPlayedTimeSecond();
+                    return a.getPlayedTimeSecond() - b.getPlayedTimeSecond();
                 return 0;
             }
         });

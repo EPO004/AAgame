@@ -113,6 +113,12 @@ public class GameSetting {
     public void changeBalls(int amount){
         this.allBalls += amount;
     }
+    public void changeFormat(int amount){
+        this.mapFormat += amount;
+    }
+    public void changeMapBall(int amount){
+        this.mapBallFormat+=amount;
+    }
 }
 
 /*

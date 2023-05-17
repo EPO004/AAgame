@@ -1,11 +1,11 @@
 .Button{
-    -fx-padding: 20;
-    -fx-border-insets: 20;
-    -fx-background-insets: 20;
+    -fx-padding: 15;
+    -fx-border-insets: 15;
+    -fx-background-insets: 15;
     -fx-background-color: darkred;
     -fx-text-fill: orange;
     -fx-pref-width: 320;
-    -fx-pref-height: 70;
+    -fx-pref-height: 50;
     -fx-background-radius: 51;
     -fx-border-radius: 51;
     -fx-background-size: 100;
@@ -16,13 +16,13 @@
     -fx-background-color: linear-gradient(sandybrown, yellow);
 }
 .ButtonSign{
-    -fx-padding: 20;
-    -fx-border-insets: 20;
-    -fx-background-insets: 20;
+    -fx-padding: 15;
+    -fx-border-insets: 15;
+    -fx-background-insets: 15;
     -fx-background-color: darkred;
     -fx-text-fill: orange;
     -fx-pref-width: 100;
-    -fx-pref-height: 70;
+    -fx-pref-height: 50;
     -fx-background-radius: 100;
     -fx-border-radius: 100;
     -fx-background-size: 100;
@@ -33,13 +33,13 @@
     -fx-background-color: linear-gradient(sandybrown, yellow);
 }
 .Label{
-    -fx-padding: 20;
-    -fx-border-insets: 20;
-    -fx-background-insets: 20;
+    -fx-padding: 15;
+    -fx-border-insets: 15;
+    -fx-background-insets: 15;
     -fx-background-color: darkred;
     -fx-text-fill: orange;
     -fx-pref-width: 320;
-    -fx-pref-height: 70;
+    -fx-pref-height: 50;
     -fx-background-radius: 51;
     -fx-border-radius: 51;
     -fx-background-size: 100;

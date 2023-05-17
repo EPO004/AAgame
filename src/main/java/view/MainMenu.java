@@ -13,6 +13,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.User;
 
 import java.net.URL;
@@ -21,6 +22,7 @@ import java.util.Locale;
 public class MainMenu extends Application {
     private static Stage stage;
     private static AudioClip audioClip;
+    public static boolean isPlaying = false;
     public static boolean onMusic=true;
     private static User user;
 
@@ -32,7 +34,8 @@ public class MainMenu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         audioClip = new AudioClip(getClass().getResource("/sound/mainMenu.mp3").toExternalForm());
-        if (onMusic) audioClip.cycleCountProperty();
+        audioClip.setCycleCount(-1);
+        if (onMusic && !isPlaying) audioClip.play();
         URL url = MainMenu.class.getResource("/fxml/mainMenu.fxml");
         ImageView backGround = new ImageView(new Image(MainMenu.class.getResource("/image/mainMenu.png").toExternalForm(), 800, 600, false, false));
         Pane pane = new Pane();
@@ -47,12 +50,6 @@ public class MainMenu extends Application {
         stage.show();
     }
 
-    public void exit(MouseEvent mouseEvent) throws Exception {
-        LoginMenu loginMenu = new LoginMenu();
-        loginMenu.start(stage);
-        audioClip.stop();
-    }
-
     public boolean isOnMusic() {
         return onMusic;
     }
@@ -61,6 +58,17 @@ public class MainMenu extends Application {
         return user;
     }
     public static void musicStop(){
+        audioClip.stop();
+        onMusic=false;
+    }
+    public static void musicPlay(){
+        audioClip.play();
+        isPlaying=true;
+        onMusic=true;
+    }
+    public static void exitForMusic(){
+        onMusic=true;
+        isPlaying=false;
         audioClip.stop();
     }
 

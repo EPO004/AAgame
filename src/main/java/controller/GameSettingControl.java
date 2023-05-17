@@ -52,6 +52,7 @@ public class GameSettingControl {
         difficulty.setText("Difficulty : "+MainMenu.getUser().getGameSetting().getDifficulty());
         allBalls.setText("Balls : "+ MainMenu.getUser().getGameSetting().getAllBalls());
         mapFormat.setText("Map Format "+MainMenu.getUser().getGameSetting().getMapFormat());
+        mapBalls.setText("Map Balls : "+MainMenu.getUser().getGameSetting().getMapBallFormat());
         if (MainMenu.getUser().getGameSetting().isMusicOn())
             music.setText("Music : On");
         else
@@ -82,10 +83,14 @@ public class GameSettingControl {
 
     public void musicState(MouseEvent mouseEvent) throws Exception {
         User user = MainMenu.getUser();
-        if (user.getGameSetting().isMusicOn())
+        if (user.getGameSetting().isMusicOn()) {
             user.getGameSetting().setMusicOn(false);
-        else
+            MainMenu.musicStop();
+        }
+        else {
             user.getGameSetting().setMusicOn(true);
+            MainMenu.musicPlay();
+        }
         initialize();
         makeChanges();
     }

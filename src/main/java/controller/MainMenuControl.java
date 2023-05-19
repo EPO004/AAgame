@@ -29,4 +29,10 @@ public class MainMenuControl {
         GameSettingMenu gameSettingMenu = new GameSettingMenu();
         gameSettingMenu.start(LoginMenu.getStage());
     }
+
+    public void startGame(MouseEvent mouseEvent) throws Exception {
+        if (MainMenu.onMusic) MainMenu.isPlaying=true;
+        Game game = new Game();
+        game.start(LoginMenu.getStage());
+    }
 }

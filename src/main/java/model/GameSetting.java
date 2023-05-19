@@ -109,6 +109,22 @@ public class GameSetting {
     }
     public void changeDifficulty(int amount){
         this.difficulty += amount;
+        if (difficulty==1){
+            turningVelocity=5;
+            windVelocity=1.2;
+            freezeSecond=7;
+        }
+        else if(difficulty==2){
+            turningVelocity=10;
+            windVelocity=1.5;
+            freezeSecond=5;
+        }
+        else {
+            turningVelocity=15;
+            windVelocity=1.8;
+            freezeSecond=3;
+        }
+
     }
     public void changeBalls(int amount){
         this.allBalls += amount;

@@ -16,7 +16,7 @@
                 <HBox alignment="CENTER_LEFT">
                     <VBox alignment="CENTER_LEFT" spacing="10">
                         <Button text="Resume Game"/>
-                        <Button text="Start Game"/>
+                        <Button text="Start Game" onMouseClicked="#startGame"/>
                         <Button text="Score Board" onMouseClicked="#scoreBoard"/>
                         <Button text="Profile" onMouseClicked="#profile"/>
                         <Button text="Setting" onMouseClicked="#setting"/>

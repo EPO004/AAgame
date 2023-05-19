@@ -6,12 +6,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import org.w3c.dom.Text;
+import view.Game;
 import view.MainMenu;
 import view.animations.TurningTransition;
 
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 
 public class CenterDisk extends Circle {
     private Group centerDisk;
+    private Group lines = new Group();
+    private Connection line;
     public CenterDisk () throws InterruptedException {
         super(400f, 300f, 70f);
         centerDisk = new Group();
@@ -35,10 +40,16 @@ public class CenterDisk extends Circle {
         return centerDisk;
     }
     public void addBall(Ball ball){
+        line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
+        line.setFill(Color.BLACK);
         TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
         transition.play();
+       TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
+        transition1.play();
+        lines.getChildren().add(line);
         centerDisk.getChildren().addAll(ball);
         ball.setTransition(transition);
+        line.setTransition(transition1);
     }
     public ArrayList getBall(){
         ArrayList <Ball> balls = new ArrayList<>();
@@ -51,6 +62,10 @@ public class CenterDisk extends Circle {
         for (int i=1; i<centerDisk.getChildren().size(); i++){
             Ball ball =(Ball)centerDisk.getChildren().get(i);
             ball.getTransition().stop();
+        }
+        for (int i=0; i<lines.getChildren().size(); i++){
+            Connection line =(Connection)lines.getChildren().get(i);
+            line.getTransition().stop();
         }
     }
     public void playTurning(){
@@ -65,10 +80,20 @@ public class CenterDisk extends Circle {
         double angle = format*7;
         for (int i=1; i<=allBalls; i++){
             Ball ball = new Ball(400+Math.cos(angle*i)*150, 300+Math.sin(angle*i)*150);
+            line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
+            line.setFill(Color.BLACK);
+            TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
+            transition1.play();
+            lines.getChildren().add(line);
             TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
             transition.play();
             centerDisk.getChildren().addAll(ball);
             ball.setTransition(transition);
+            line.setTransition(transition1);
         }
+    }
+
+    public Group getLines() {
+        return lines;
     }
 }

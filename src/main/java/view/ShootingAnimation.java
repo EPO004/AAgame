@@ -1,11 +1,13 @@
 package view;
 
 import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
@@ -34,6 +36,12 @@ public class ShootingAnimation extends Transition {
                 centerDisk.stopTurning();
                 pane.setStyle("-fx-background-color: red");
                 stop();
+                EndGame endGame = new EndGame();
+                try {
+                    endGame.start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return;
             }
         }
@@ -47,6 +55,13 @@ public class ShootingAnimation extends Transition {
                 pane.setStyle("-fx-background-color: green");
                 //pane.getChildren().remove(ball);
                 centerDisk.stopTurning();
+                this.stop();
+                EndGame endGame = new EndGame();
+                try {
+                    endGame.start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             // pane.getChildren().remove(centerDisk);
             this.stop();

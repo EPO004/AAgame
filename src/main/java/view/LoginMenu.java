@@ -39,6 +39,7 @@ public class LoginMenu extends Application {
         pane.getChildren().addAll(borderPane);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
     @FXML

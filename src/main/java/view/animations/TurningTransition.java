@@ -7,12 +7,15 @@ import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
 
+import java.util.Timer;
+
 public class TurningTransition extends Transition {
     private Node node;
     double pivotX;
     double pivotY;
     double x;
     double y;
+    boolean isLine;
     private double angle=270;
     Ball ball;
     double velocity;
@@ -27,6 +30,17 @@ public class TurningTransition extends Transition {
         x = ball.getCenterX();
         y = 300f;
     }
+
+    public TurningTransition(Node node, double pivotX, double pivotY, double velocity, boolean isLine) {
+        this.setCycleDuration(Duration.INDEFINITE);
+        this.setCycleCount(-1);
+        this.node = node;
+        this.pivotX = pivotX;
+        this.pivotY = pivotY;
+        this.isLine = isLine;
+        this.velocity = velocity;
+    }
+
     @Override
     protected void interpolate(double frac) {
         Rotate rotate = new Rotate();
@@ -35,8 +49,8 @@ public class TurningTransition extends Transition {
         rotate.setAngle(velocity);
         angle += velocity;
         angle%=360;
-       // System.out.println(angle);
-        ball.getTransforms().add(rotate);
+        node.getTransforms().add(rotate);
+        Timer timer = new Timer();
         //stop();
      //   ball.setCenterX(x + Math.cos(angle)*150);
        // ball.setCenterY(y + Math.sin(angle)*150);

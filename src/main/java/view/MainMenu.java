@@ -47,6 +47,7 @@ public class MainMenu extends Application {
         pane.setEffect(monochrome);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 

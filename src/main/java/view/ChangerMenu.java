@@ -34,6 +34,7 @@ public class ChangerMenu extends Application {
         pane.setEffect(monochrome);
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
 }

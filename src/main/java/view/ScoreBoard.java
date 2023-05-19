@@ -41,6 +41,7 @@ public class ScoreBoard extends Application {
         monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
         pane.setEffect(monochrome);
         primaryStage.setScene(new Scene(pane));
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
     private TableView tableView(){

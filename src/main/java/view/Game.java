@@ -23,6 +23,7 @@ import view.animations.TurningTransition;
 import java.net.URL;
 
 public class Game extends Application {
+    private static Pane pane;
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL url = getClass().getResource("/fxml/game.fxml");
@@ -30,10 +31,10 @@ public class Game extends Application {
         pane.setStyle("-fx-background-color: wheat");
         CenterDisk centerDisk = new CenterDisk();
         Circle ball = newBall(centerDisk, pane);
-
-
+        Game.pane = pane;
         pane.getChildren().addAll(centerDisk.getCenterDisk());
         pane.getChildren().addAll(ball);
+        pane.getChildren().addAll(centerDisk.getLines());
         ColorAdjust monochrome = new ColorAdjust();
         monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
         pane.setEffect(monochrome);
@@ -48,11 +49,19 @@ public class Game extends Application {
             public void handle(KeyEvent event) {
                 String keyName = event.getCode().getName();
                 if (keyName.equals("Space")){
-                    GameControl.shoot(pane, centerDisk, ball);
+                    try {
+                        GameControl.shoot(pane, centerDisk, ball);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     //centerDisk.addBall(new Ball(centerDisk, true));
                 }
             }
         });
         return ball;
+    }
+
+    public static Pane getPane() {
+        return pane;
     }
 }

@@ -11,6 +11,8 @@ import view.animations.TurningTransition;
 public class Ball extends Circle {
     private TurningTransition transition;
     private Circle ball;
+    private double x;
+    private double y;
     public Ball(CenterDisk centerDisk){
         super(centerDisk.getCenterX(), centerDisk.getCenterY()+270, 10);
         this.ball = ball();
@@ -37,6 +39,27 @@ public class Ball extends Circle {
 
     public TurningTransition getTransition() {
         return transition;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+    @Override
+    public String toString(){
+        String output= "x = "+x+";   y = "+ y;
+        return output;
     }
 
     public void setTransition(TurningTransition transition) {

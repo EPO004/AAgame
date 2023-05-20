@@ -87,19 +87,23 @@ public class ScoreBoard extends Application {
     }
     private HashMap hashMapDetail(int i) {
         HashMap<String, Object> item1 = new HashMap<>();
-        Label label = new Label("#"+(i+1));
+
+        item1.put("rank", getDetailLabel("#"+(i+1), i));
+        item1.put("avatar", new ImageView(new Image(users.get(i).getAvatarUrl(), 80, 60, false, false)));
+        item1.put("username", getDetailLabel(users.get(i).getUsername(), i));
+        item1.put("score", getDetailLabel(users.get(i).getScore()+"", i));
+        item1.put("timePlayed", getDetailLabel( users.get(i).getPlayedTimeSecond()+"", i));
+        item1.put("hard", getDetailLabel(users.get(i).getHardPlayed()+"", i));
+        item1.put("normal", getDetailLabel(users.get(i).getNormalPlayed()+"", i));
+        item1.put("easy", getDetailLabel(users.get(i).getEasyPlayed()+"", i));
+        return item1;
+    }
+    private Label getDetailLabel(String detail, int i){
+        Label label = new Label(detail);
         if (i==0) label.setStyle("-fx-background-color: gold ; -fx-font-size: 20; -fx-text-fill: black");
         else if (i == 1) label.setStyle("-fx-background-color: silver; -fx-font-size: 20; -fx-text-fill: black");
         else if(i==2) label.setStyle("-fx-background-color: saddlebrown; -fx-font-size: 20; -fx-text-fill: white");
         else label.setStyle("-fx-font-size: 20; -fx-text-fill: white");
-        item1.put("rank", label);
-        item1.put("avatar", new ImageView(new Image(users.get(i).getAvatarUrl(), 80, 60, false, false)));
-        item1.put("username", users.get(i).getUsername());
-        item1.put("score", users.get(i).getScore());
-        item1.put("timePlayed", users.get(i).getPlayedTimeSecond());
-        item1.put("hard", users.get(i).getHardPlayed());
-        item1.put("normal", users.get(i).getNormalPlayed());
-        item1.put("easy", users.get(i).getEasyPlayed());
-        return item1;
+        return label;
     }
 }

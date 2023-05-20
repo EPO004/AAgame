@@ -1,0 +1,50 @@
+.Button{
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 200;
+    -fx-pref-height: 30;
+    -fx-background-radius: 51;
+    -fx-border-radius: 51;
+    -fx-background-size: 100;
+    -fx-font-size: 18;
+    -fx-font-family: "Cambria Math";
+}
+.Button:pressed {
+    -fx-background-color: linear-gradient(sandybrown, yellow);
+}
+.ButtonSign{
+    -fx-padding: 5;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 80;
+    -fx-pref-height: 30;
+    -fx-background-radius: 100;
+    -fx-border-radius: 100;
+    -fx-background-size: 100;
+    -fx-font-size: 18;
+    -fx-font-family: "Cambria Math";
+}
+.ButtonSign:pressed {
+    -fx-background-color: linear-gradient(sandybrown, yellow);
+}
+.Label{
+    -fx-padding: 5;
+    -fx-alignment: center;
+    -fx-border-insets: 5;
+    -fx-background-insets: 5;
+    -fx-background-color: darkred;
+    -fx-text-fill: orange;
+    -fx-pref-width: 200;
+    -fx-pref-height: 30;
+    -fx-background-radius: 40;
+    -fx-content-display: center;
+    -fx-border-radius: 40;
+    -fx-background-size: 100;
+    -fx-font-size: 16;
+    -fx-font-family: "Cambria Math";
+}

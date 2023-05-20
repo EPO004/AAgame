@@ -73,6 +73,10 @@ public class CenterDisk extends Circle {
             Ball ball =(Ball)centerDisk.getChildren().get(i);
             ball.getTransition().play();
         }
+        for (int i=0; i<lines.getChildren().size(); i++){
+            Connection line =(Connection)lines.getChildren().get(i);
+            line.getTransition().play();
+        }
     }
     private void setDefaultBalls() throws InterruptedException {
         int allBalls = MainMenu.getUser().getGameSetting().getMapBallFormat();

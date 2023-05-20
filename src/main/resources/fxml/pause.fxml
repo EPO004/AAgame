@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.Pause"
+            prefHeight="200.0" prefWidth="300.0"
+            stylesheets="@../css/game.css">
+            <center>
+                <VBox alignment="CENTER">
+                    <Label text="Paused" styleClass="Label"/>
+                    <Button text="Resume" styleClass="Button" onMouseClicked="#resume"/>
+                    <Button text="Restart" styleClass="Button" onMouseClicked="#restart"/>
+                    <Button text="" fx:id="music" styleClass="Button" onMouseClicked="#music"/>
+                    <Button text="Game Hint" styleClass="Button"/>
+                    <HBox alignment="CENTER" spacing="3">
+                        <Button text="Track1" styleClass="ButtonSign" onMouseClicked="#track1"/>
+                        <Button text="Track2" styleClass="ButtonSign" onMouseClicked="#track2"/>
+                        <Button text="Track3" styleClass="ButtonSign" onMouseClicked="#track3"/>
+                    </HBox>
+                    <Button text="Exit" styleClass="Button" onMouseClicked="#exit"/>
+                </VBox>
+            </center>
+</BorderPane>

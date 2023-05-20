@@ -52,8 +52,9 @@ public class TurningTransition extends Transition {
         node.getTransforms().add(rotate);
         Timer timer = new Timer();
         //stop();
-     //   ball.setCenterX(x + Math.cos(angle)*150);
-       // ball.setCenterY(y + Math.sin(angle)*150);
+        if (ball==null) return;
+        ball.setX(x + Math.cos(angle)*150);
+        ball.setY(y + Math.sin(angle)*150);
       //  System.out.println(ball.getCenterX()+" : "+ball.getCenterY());
     }
 }

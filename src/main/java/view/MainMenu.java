@@ -73,6 +73,10 @@ public class MainMenu extends Application {
         audioClip.stop();
     }
 
+    public static AudioClip getAudioClip() {
+        return audioClip;
+    }
+
     public static void setUser(User user) {
         MainMenu.user = user;
     }

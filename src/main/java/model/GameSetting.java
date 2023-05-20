@@ -9,6 +9,7 @@ public class GameSetting {
     private int allBalls;
     private int mapFormat;
     private boolean musicOn;
+    private int realBalls;
     private boolean soundOn;
     private int isBlackWhite;
 
@@ -22,6 +23,7 @@ public class GameSetting {
         this.freezeSecond = freezeSecond;
         this.mapBallFormat = mapBallFormat;
         this.allBalls = allBalls;
+        this.realBalls = allBalls;
         this.mapFormat = mapFormat;
         this.musicOn = musicOn;
         this.soundOn = soundOn;
@@ -126,6 +128,11 @@ public class GameSetting {
         }
 
     }
+
+    public int getRealBalls() {
+        return realBalls;
+    }
+
     public void changeBalls(int amount){
         this.allBalls += amount;
     }

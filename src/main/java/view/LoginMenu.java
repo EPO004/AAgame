@@ -39,6 +39,7 @@ public class LoginMenu extends Application {
         pane.getChildren().addAll(borderPane);
         Scene scene = new Scene(pane);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(getClass().getResource("/image/avatar1.png").toExternalForm()));
         stage.centerOnScreen();
         stage.show();
     }

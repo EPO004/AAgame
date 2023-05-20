@@ -31,7 +31,7 @@ public class MainMenuControl {
     }
 
     public void startGame(MouseEvent mouseEvent) throws Exception {
-        if (MainMenu.onMusic) MainMenu.isPlaying=true;
+        MainMenu.getAudioClip().stop();
         Game game = new Game();
         game.start(LoginMenu.getStage());
     }

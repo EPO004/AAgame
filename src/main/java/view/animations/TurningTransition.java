@@ -18,7 +18,6 @@ public class TurningTransition extends Transition {
     double x;
     double y;
     boolean isLine;
-    private boolean transitionPlaying;
     public static double angle=0;
     Ball ball;
     double velocity;
@@ -50,15 +49,12 @@ public class TurningTransition extends Transition {
         rotate.setPivotX(pivotX);
         rotate.setPivotY(pivotY);
         rotate.setAngle(velocity);
-        angle += velocity;
-        angle%=360;
         node.getTransforms().add(rotate);
         Timer timer = new Timer();
         //stop();
         if (ball!=null) {
             ball.setX(400f + Math.cos(Math.toDegrees(angle)) * 150f);
             ball.setY(300f + Math.sin(Math.toDegrees(angle)) * 150f);
-            System.out.println(ball.getX()+" == "+ ball.getY());
         }
     }
 }

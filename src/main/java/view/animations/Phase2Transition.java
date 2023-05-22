@@ -61,7 +61,7 @@ public class Phase2Transition extends Transition {
         rotate.setAngle(velocity);
         angle += velocity;
         angle%=360;
-        node.getTransforms().add(rotate);
+        node.getTransforms().addAll(rotate);
         if (ball!=null) {
             ball.setX(400f + Math.cos(Math.toDegrees(angle)) * 150f);
             ball.setY(300f + Math.sin(Math.toDegrees(angle)) * 150f);

@@ -59,6 +59,7 @@ public class Game extends Application {
         Game.primaryStage = primaryStage;
         URL url = getClass().getResource("/fxml/game.fxml");
         Pane pane = new Pane();
+        Game.pane = pane;
         BorderPane borderPane = FXMLLoader.load(url);
         gameControl = GameControl.getGameControl();
         pane.setStyle("-fx-background-color: wheat");
@@ -69,24 +70,21 @@ public class Game extends Application {
         Game.centerDisk = centerDisk;
         Circle ball = newBall(centerDisk, pane);
         Game.ball = ball;
-        Game.pane = pane;
 
         pauseButton.setOnMouseClicked(e -> {
             try {
                 timeline.stop();
                 centerDisk.stopTurning();
                 pauseMenu(primaryStage);
-                for (int i =5; i<centerDisk.getBall().size(); i++){
-                    Ball ball1 = (Ball) centerDisk.getBall().get(i);
-                    System.out.println(ball1.toString());
+                for (int i =5; i<centerDisk.getCenterDisk().size(); i++){
+                    Ball ball1 = (Ball) centerDisk.getCenterDisk().get(i);
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
-        pane.getChildren().addAll(centerDisk.getCenterDisk());
+        pane.getChildren().add(centerDisk);
         pane.getChildren().addAll(ball);
-        pane.getChildren().addAll(centerDisk.getLines());
         timer(pane, centerDisk);
         ColorAdjust monochrome = new ColorAdjust();
         monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
@@ -136,7 +134,6 @@ public class Game extends Application {
                             } else if (diff>=0){
                                 long temp = diff/60;
                                 GameControl.getGameControl().setTimeLeft(String.format("Time Left : %02d:%02d", temp, diff-temp*60));
-                                //System.out.println(gameControl);
                             }
                         }
                 )

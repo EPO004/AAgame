@@ -9,10 +9,13 @@ import view.MainMenu;
 import view.animations.Phase2Transition;
 import view.animations.RadiusChange;
 import view.animations.TurningTransition;
+import view.animations.VisibleAnimation;
 
 public class Ball extends Circle {
     private Transition transition;
     private RadiusChange radiusChange;
+    public boolean isVisible = true;
+    private VisibleAnimation visibleAnimation;
     private Circle ball;
     private double x = 300f;
     private double y = 400f + 150f;
@@ -63,6 +66,14 @@ public class Ball extends Circle {
     public String toString(){
         String output= "x = "+x+";   y = "+ y;
         return output;
+    }
+
+    public VisibleAnimation getVisibleAnimation() {
+        return visibleAnimation;
+    }
+
+    public void setVisibleAnimation(VisibleAnimation visibleAnimation) {
+        this.visibleAnimation = visibleAnimation;
     }
 
     public RadiusChange getRadiusChange() {

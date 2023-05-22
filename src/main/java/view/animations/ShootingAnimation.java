@@ -35,9 +35,9 @@ public class ShootingAnimation extends Transition {
     @Override
     protected void interpolate(double frac) {
         double y = ball.getCenterY()-10;
-        ArrayList<Ball> balls = centerDisk.getBall();
+        ArrayList<Ball> balls = centerDisk.getCenterDisk();
         for (Ball b : balls){
-            if (b.getBoundsInParent().intersects(ball.getBoundsInLocal())){
+            if (b.getBoundsInParent().intersects(ball.getBoundsInLocal()) && ball.isVisible){
                 centerDisk.stopTurning();
                 pane.setStyle("-fx-background-color: red");
                 MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
@@ -73,6 +73,12 @@ public class ShootingAnimation extends Transition {
             centerDisk.stopTurning();
             centerDisk.makeShootedPhase2();
             centerDisk.phase2RadiusChange();
+        }
+        else if (balls>= quarter*2){
+            centerDisk.addBall(ball);
+            centerDisk.stopTurning();
+            centerDisk.makeShootedPhase2();
+            centerDisk.phase3Visible();
         }
     }
 }

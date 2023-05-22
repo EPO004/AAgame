@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
+import model.Connection;
 import model.GameSetting;
 import view.EndGame;
 import view.Game;
@@ -39,39 +40,39 @@ public class ShootingAnimation extends Transition {
             if (b.getBoundsInParent().intersects(ball.getBoundsInLocal())){
                 centerDisk.stopTurning();
                 pane.setStyle("-fx-background-color: red");
-                stop();
+                MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
+                this.stop();
                 Game.getTimeline().stop();
-                EndGame endGame = new EndGame();
-                try {
-                    endGame.start(new Stage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Game.endGame();
                 return;
             }
         }
         if (y==centerDisk.getCenterY()+150){
-            //   pane.getChildren().remove(ball);
-            // this.stop();
             GameSetting gameSetting = MainMenu.getUser().getGameSetting();
             Game.getGameControl().setScoreString("Score : "+ ((gameSetting.getRealBalls()-gameSetting.getAllBalls())*10));
             pane.getChildren().remove(ball);
             ball = new Ball(centerDisk, true);
-            centerDisk.addBall(ball);
+            applyPhase(ball);
             if (MainMenu.getUser().getGameSetting().getAllBalls()==0){
                 pane.setStyle("-fx-background-color: green");
                 centerDisk.stopTurning();
                 this.stop();
                 Game.getTimeline().stop();
-                EndGame endGame = new EndGame();
-                try {
-                    endGame.start(new Stage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Game.endGame();
             }
             this.stop();
         }
         ball.setCenterY(y);
+    }
+    private void applyPhase(Ball ball){
+        int balls = MainMenu.getUser().getGameSetting().getAllBalls();
+        int quarter = MainMenu.getUser().getGameSetting().getRealBalls()/4;
+        if (balls >= quarter*4) centerDisk.addBall(ball);
+        else if (balls >= quarter*3){
+            centerDisk.addBall(ball);
+            centerDisk.stopTurning();
+            centerDisk.makeShootedPhase2();
+            centerDisk.phase2RadiusChange();
+        }
     }
 }

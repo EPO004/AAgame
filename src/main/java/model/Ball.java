@@ -6,13 +6,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import view.MainMenu;
+import view.animations.Phase2Transition;
+import view.animations.RadiusChange;
 import view.animations.TurningTransition;
 
 public class Ball extends Circle {
-    private TurningTransition transition;
+    private Transition transition;
+    private RadiusChange radiusChange;
     private Circle ball;
-    private double x;
-    private double y;
+    private double x = 300f;
+    private double y = 400f + 150f;
     public Ball(CenterDisk centerDisk){
         super(centerDisk.getCenterX(), centerDisk.getCenterY()+270, 10);
         this.ball = ball();
@@ -37,7 +40,7 @@ public class Ball extends Circle {
         return ball;
     }
 
-    public TurningTransition getTransition() {
+    public Transition getTransition() {
         return transition;
     }
 
@@ -62,7 +65,15 @@ public class Ball extends Circle {
         return output;
     }
 
-    public void setTransition(TurningTransition transition) {
+    public RadiusChange getRadiusChange() {
+        return radiusChange;
+    }
+
+    public void setRadiusChange(RadiusChange radiusChange) {
+        this.radiusChange = radiusChange;
+    }
+
+    public void setTransition(Transition transition) {
         this.transition = transition;
     }
 }

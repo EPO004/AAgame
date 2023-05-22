@@ -1,6 +1,8 @@
 package view.animations;
 
 import javafx.animation.Transition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
@@ -16,29 +18,30 @@ public class TurningTransition extends Transition {
     double x;
     double y;
     boolean isLine;
-    private double angle=270;
+    private boolean transitionPlaying;
+    public static double angle=0;
     Ball ball;
     double velocity;
     public TurningTransition(Node node, double pivotX, double pivotY, double velocity){
-        this.setCycleDuration(Duration.INDEFINITE);
-        this.setCycleCount(-1);
         this.node = node;
         this.velocity = velocity;
         this.pivotX = pivotX;
         this.pivotY = pivotY;
         ball = (Ball) node;
-        x = ball.getCenterX();
+        x = 400f;
         y = 300f;
+        setCycleDuration(Duration.INDEFINITE);
+        setCycleCount(-1);
     }
 
     public TurningTransition(Node node, double pivotX, double pivotY, double velocity, boolean isLine) {
-        this.setCycleDuration(Duration.INDEFINITE);
-        this.setCycleCount(-1);
         this.node = node;
         this.pivotX = pivotX;
         this.pivotY = pivotY;
         this.isLine = isLine;
         this.velocity = velocity;
+        setCycleDuration(Duration.INDEFINITE);
+        this.setCycleCount(-1);
     }
 
     @Override
@@ -52,9 +55,10 @@ public class TurningTransition extends Transition {
         node.getTransforms().add(rotate);
         Timer timer = new Timer();
         //stop();
-        if (ball==null) return;
-        ball.setX(x + Math.cos(angle)*150);
-        ball.setY(y + Math.sin(angle)*150);
-      //  System.out.println(ball.getCenterX()+" : "+ball.getCenterY());
+        if (ball!=null) {
+            ball.setX(400f + Math.cos(Math.toDegrees(angle)) * 150f);
+            ball.setY(300f + Math.sin(Math.toDegrees(angle)) * 150f);
+            System.out.println(ball.getX()+" == "+ ball.getY());
+        }
     }
 }

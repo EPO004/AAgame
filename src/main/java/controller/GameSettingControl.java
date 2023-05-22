@@ -71,6 +71,7 @@ public class GameSettingControl {
         User user = MainMenu.getUser();
         if (user.getGameSetting().getAllBalls() == 50) return;
         user.getGameSetting().changeBalls(1);
+        user.getGameSetting().changeRealBalls(1);
         initialize();
     }
 
@@ -78,6 +79,7 @@ public class GameSettingControl {
         User user = MainMenu.getUser();
         if (user.getGameSetting().getAllBalls() == 5) return;
         user.getGameSetting().changeBalls(-1);
+        user.getGameSetting().changeRealBalls(-1);
         initialize();
     }
 

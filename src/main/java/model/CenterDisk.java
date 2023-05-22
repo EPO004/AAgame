@@ -1,5 +1,6 @@
 package model;
 
+import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -16,9 +17,12 @@ import javafx.util.Duration;
 import org.w3c.dom.Text;
 import view.Game;
 import view.MainMenu;
+import view.animations.Phase2Transition;
+import view.animations.RadiusChange;
 import view.animations.TurningTransition;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class CenterDisk extends Circle {
     private Group centerDisk;
@@ -40,16 +44,7 @@ public class CenterDisk extends Circle {
         return centerDisk;
     }
     public void addBall(Ball ball){
-        line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
-        line.setFill(Color.BLACK);
-        TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
-        transition.play();
-       TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
-        transition1.play();
-        lines.getChildren().add(line);
-        centerDisk.getChildren().addAll(ball);
-        ball.setTransition(transition);
-        line.setTransition(transition1);
+        phase1(ball);
     }
     public ArrayList getBall(){
         ArrayList <Ball> balls = new ArrayList<>();
@@ -62,6 +57,7 @@ public class CenterDisk extends Circle {
         for (int i=1; i<centerDisk.getChildren().size(); i++){
             Ball ball =(Ball)centerDisk.getChildren().get(i);
             ball.getTransition().stop();
+            if (ball.getRadiusChange()!=null) ball.getRadiusChange().stop();
         }
         for (int i=0; i<lines.getChildren().size(); i++){
             Connection line =(Connection)lines.getChildren().get(i);
@@ -72,6 +68,7 @@ public class CenterDisk extends Circle {
         for (int i=1; i<centerDisk.getChildren().size(); i++){
             Ball ball =(Ball)centerDisk.getChildren().get(i);
             ball.getTransition().play();
+            if (ball.getRadiusChange()!=null) ball.getRadiusChange().play();
         }
         for (int i=0; i<lines.getChildren().size(); i++){
             Connection line =(Connection)lines.getChildren().get(i);
@@ -88,16 +85,52 @@ public class CenterDisk extends Circle {
             line.setFill(Color.BLACK);
             TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
             transition1.play();
-            lines.getChildren().add(line);
             TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
             transition.play();
+            lines.getChildren().add(line);
             centerDisk.getChildren().addAll(ball);
             ball.setTransition(transition);
             line.setTransition(transition1);
         }
     }
+    public void phase1(Ball ball){
+        line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
+        line.setFill(Color.BLACK);
+        TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
+        TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
+        lines.getChildren().add(line);
+        centerDisk.getChildren().addAll(ball);
+        ball.setTransition(transition);
+        line.setTransition(transition1);
+        transition.play();
+        transition1.play();
+    }
 
     public Group getLines() {
         return lines;
+    }
+    public void makeShootedPhase2(){
+        Random random = new Random();
+        int number = random.nextInt(2)+1;
+        int velocity = MainMenu.getUser().getGameSetting().getTurningVelocity()/5;
+        if (number%2 == 0) velocity*=-1;
+        for (int i=1; i<centerDisk.getChildren().size(); i++){
+                Ball ball = (Ball) centerDisk.getChildren().get(i);
+                Phase2Transition transition = new Phase2Transition( ball, 400f, 300f, velocity);
+                ball.setTransition(transition);
+                transition.play();
+                line = (Connection) lines.getChildren().get(i-1);
+                Phase2Transition transition1 = new Phase2Transition( line, 400f, 300f,velocity, true);
+                line.setTransition(transition1);
+                transition1.play();
+        }
+    }
+    public void phase2RadiusChange(){
+        for (int i=1; i<centerDisk.getChildren().size(); i++){
+            Ball ball = (Ball) centerDisk.getChildren().get(i);
+            RadiusChange transition = new RadiusChange( ball);
+            ball.setRadiusChange(transition);
+            transition.play();
+        }
     }
 }

@@ -8,7 +8,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.Ball;
 import model.CenterDisk;
+import model.Connection;
 import view.*;
+import view.animations.Phase2Transition;
 import view.animations.ShootingAnimation;
 
 public class GameControl {
@@ -33,12 +35,12 @@ public class GameControl {
         ballLeftString = "Balls Left : "+MainMenu.getUser().getGameSetting().getAllBalls();
         initialize();
         Ball ball1 = new Ball(centerDisk);
-        pane.getChildren().addAll(ball1);
-        ShootingAnimation shootingAnimation = new ShootingAnimation(pane,centerDisk, ball1);
-        shootingAnimation.play();
         if (balls==1) {
             pane.getChildren().remove(ball);
         }
+        pane.getChildren().addAll(ball1);
+        ShootingAnimation shootingAnimation = new ShootingAnimation(pane,centerDisk, ball1);
+        shootingAnimation.play();
     }
     public void pause(MouseEvent mouseEvent) {
     }
@@ -62,5 +64,9 @@ public class GameControl {
     public void setScoreString(String scoreString) {
         this.scoreString = scoreString;
         initialize();
+    }
+
+    public String getTime() {
+        return time;
     }
 }

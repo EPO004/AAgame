@@ -20,12 +20,14 @@ public class Pause {
         Game game = new Game();
         Game.getPopUpStage().close();
         Game.getAudioClip().stop();
+        MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getRealBalls());
         game.start(LoginMenu.getStage());
     }
 
     public void exit(MouseEvent mouseEvent) throws Exception {
         Game.getPopUpStage().close();
         Game.getAudioClip().stop();
+        MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getRealBalls());
         MainMenu mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
         mainMenu.start(LoginMenu.getStage());
 

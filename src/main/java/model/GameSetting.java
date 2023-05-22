@@ -142,6 +142,9 @@ public class GameSetting {
     public void changeMapBall(int amount){
         this.mapBallFormat+=amount;
     }
+    public void changeRealBalls(int amount){
+        this.realBalls += amount;
+    }
 }
 
 /*

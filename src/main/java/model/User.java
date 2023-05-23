@@ -12,6 +12,7 @@ public class User {
     private int hardPlayed;
     private int normalPlayed;
     private int easyPlayed;
+    private LastGame lastGame;
     private GameSetting gameSetting;
     private static ArrayList<User> users = new ArrayList<>();
     private static HashMap<String, User> userInfo = new HashMap<>();
@@ -107,5 +108,13 @@ public class User {
 
     public GameSetting getGameSetting() {
         return gameSetting;
+    }
+
+    public LastGame getLastGame() {
+        return lastGame;
+    }
+
+    public void setLastGame(LastGame lastGame) {
+        this.lastGame = lastGame;
     }
 }

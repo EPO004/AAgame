@@ -9,10 +9,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import model.GameSetting;
 import model.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.w3c.dom.Text;
 import view.GameSettingMenu;
 import view.LoginMenu;
 import view.MainMenu;
+
+import java.io.*;
 
 public class GameSettingControl {
     @FXML
@@ -32,6 +38,7 @@ public class GameSettingControl {
     public void back(MouseEvent mouseEvent) throws Exception {
         MainMenu mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
         mainMenu.start(LoginMenu.getStage());
+        saveToJason(MainMenu.getUser());
     }
 
     public void diffDecrease(MouseEvent mouseEvent) {
@@ -146,5 +153,33 @@ public class GameSettingControl {
         if (user.getGameSetting().getMapBallFormat()==10) return;
         user.getGameSetting().changeMapBall(+1);
         initialize();
+    }
+    private void saveToJason(User user) throws IOException, ParseException {
+        String path = "DataBase\\data.json";
+        JSONParser parser = new JSONParser();
+        JSONArray a;
+        if (new FileReader(path).read()==-1) a = new JSONArray();
+        else a = (JSONArray) parser.parse(new FileReader(path));
+        for (Object j : a){
+            JSONObject temp = (JSONObject) j;
+            temp = (JSONObject) temp.get("user");
+            if (temp.get("username").equals(user.getUsername())){
+                JSONObject setting = new JSONObject();
+                setting.put("difficulty", user.getGameSetting().getDifficulty());
+                setting.put("ball", user.getGameSetting().getRealBalls());
+                setting.put("format", user.getGameSetting().getMapFormat());
+                setting.put("map", user.getGameSetting().getMapBallFormat());
+                setting.put("music", user.getGameSetting().isMusicOn());
+                setting.put("sound", user.getGameSetting().isSoundOn());
+                setting.put("color", user.getGameSetting().getIsBlackWhite());
+                temp.put("setting", setting);
+            }
+            ((JSONObject) j).put("user", temp);
+        }
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(a.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

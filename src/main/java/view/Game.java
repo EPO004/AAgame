@@ -98,6 +98,7 @@ public class Game extends Application {
         ball.requestFocus();
         if (MainMenu.getUser().getGameSetting().isMusicOn()) audioClip.play();
         primaryStage.show();
+        System.out.println(this.toString());
     }
     private Ball newBall(CenterDisk centerDisk, Pane pane){
         Ball ball = new Ball(centerDisk);
@@ -126,6 +127,7 @@ public class Game extends Application {
                     ball.setCenterX(ball.getCenterX()-10);
                 }
                 else if (keyName.equals("Shift") && gameControl.getFreezeProgress()==1){
+                    System.out.println(MainMenu.getUser().getGameSetting().getFreezeSecond());
                     gameControl.applyFreeze();
                     centerDisk.setFreezing(true);
                     ball.requestFocus();
@@ -307,8 +309,15 @@ public class Game extends Application {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                MainMenu mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
-                try {
+            MainMenu mainMenu = null;
+            try {
+                mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            try {
                     mainMenu.start(LoginMenu.getStage());
                 } catch (Exception e) {
                     e.printStackTrace();

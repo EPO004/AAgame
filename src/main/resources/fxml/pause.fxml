@@ -23,6 +23,7 @@
                         <Button text="Track2" styleClass="ButtonSign" onMouseClicked="#track2"/>
                         <Button text="Track3" styleClass="ButtonSign" onMouseClicked="#track3"/>
                     </HBox>
+                    <Button text="Save" styleClass="Button" onMouseClicked="#save"/>
                     <Button text="Exit" styleClass="Button" onMouseClicked="#exit"/>
                 </VBox>
             </center>

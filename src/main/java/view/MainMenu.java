@@ -14,8 +14,14 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.GameSetting;
 import model.User;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.*;
 import java.net.URL;
 import java.util.Locale;
 
@@ -26,7 +32,7 @@ public class MainMenu extends Application {
     public static boolean onMusic=true;
     private static User user;
 
-    public MainMenu(boolean onMusic, User user) {
+    public MainMenu(boolean onMusic, User user) throws IOException, ParseException {
         MainMenu.onMusic = onMusic;
         MainMenu.user = user;
     }
@@ -71,6 +77,29 @@ public class MainMenu extends Application {
         onMusic=true;
         isPlaying=false;
         audioClip.stop();
+    }
+    public void loadSetting() throws IOException, ParseException {
+        String path = "DataBase\\data.json";
+        JSONParser parser = new JSONParser();
+        JSONArray a;
+        if (new FileReader(path).read()==-1) a = new JSONArray();
+        else a = (JSONArray) parser.parse(new FileReader(path));
+        for (Object j : a){
+            JSONObject temp = (JSONObject) j;
+            temp = (JSONObject) temp.get("user");
+            if (temp.get("username").equals(user.getUsername())){
+                JSONObject setting = (JSONObject) temp.get("setting");
+                GameSetting gameSetting = user.getGameSetting();
+                gameSetting.setDifficulty(((Long) setting.get("difficulty")).intValue());
+                gameSetting.setAllBalls(((Long) setting.get("ball")).intValue());
+                gameSetting.setMapFormat(((Long) setting.get("format")).intValue());
+                gameSetting.setMapBallFormat(((Long) setting.get("map")).intValue());
+                gameSetting.setMusicOn((Boolean) setting.get("music"));
+                gameSetting.setSoundOn((Boolean) setting.get("sound"));
+                gameSetting.setIsBlackWhite(((Long) setting.get("color")).intValue());
+                System.out.println(setting.get("color"));
+            }
+        }
     }
 
     public static AudioClip getAudioClip() {

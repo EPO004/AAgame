@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
+import model.LastGame;
+import model.User;
 import view.Game;
 import view.LoginMenu;
 import view.MainMenu;
@@ -12,7 +14,7 @@ public class Pause {
     public void resume(MouseEvent mouseEvent) {
         Game.getPopUpStage().close();
         Game.getTimeline().play();
-         Game.getWindDegree().play();
+        if (Game.getWindDegree()!=null)Game.getWindDegree().play();
         Game.getCenterDisk().playTurning();
         Game.getBall().requestFocus();
     }
@@ -83,5 +85,13 @@ public class Pause {
         Game.setAudioClip(new AudioClip(getClass().getResource("/sound/track3.mp3").toExternalForm()));
         Game.getAudioClip().setCycleCount(-1);
         Game.getAudioClip().play();
+    }
+
+    public void save(MouseEvent mouseEvent) {
+        LastGame lastGame = new LastGame(Game.getCenterDisk(),
+                MainMenu.getUser().getGameSetting().getAllBalls(),
+                Integer.parseInt(Game.getGameControl().getTime().substring(12, 14)),
+                Integer.parseInt(Game.getGameControl().getTime().substring(15, 17)),
+                Game.getGameControl().getFreezeProgress())
     }
 }

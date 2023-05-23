@@ -9,6 +9,7 @@ import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
 import model.Connection;
+import view.Game;
 
 import java.util.Timer;
 
@@ -19,6 +20,7 @@ public class TurningTransition extends Transition {
     double x;
     double y;
     private Connection line;
+    private double primaryVelocity;
     boolean isLine;
     public double angle=90;
     Ball ball;
@@ -30,6 +32,7 @@ public class TurningTransition extends Transition {
         this.pivotY = pivotY;
         ball = (Ball) node;
         this.angle = angle;
+        primaryVelocity = velocity;
         x = 400f;
         y = 300f;
         setCycleDuration(Duration.INDEFINITE);
@@ -41,6 +44,7 @@ public class TurningTransition extends Transition {
         this.pivotX = pivotX;
         line = (Connection) node;
         this.pivotY = pivotY;
+        primaryVelocity = velocity;
         this.isLine = isLine;
         this.velocity = velocity;
         setCycleDuration(Duration.INDEFINITE);
@@ -49,6 +53,8 @@ public class TurningTransition extends Transition {
 
     @Override
     protected void interpolate(double frac) {
+        if (Game.getCenterDisk().isFreezing()) velocity = primaryVelocity / 2;
+        else velocity = primaryVelocity;
         angle += velocity;
         angle %=360;
         //stop();

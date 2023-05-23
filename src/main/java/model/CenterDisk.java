@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CenterDisk extends Circle {
+    private boolean isFreezing = false;
     private ArrayList<Ball> centerDisk;
     private ArrayList<Connection> lines = new ArrayList<>();
     private Connection line;
@@ -153,5 +154,13 @@ public class CenterDisk extends Circle {
             line.setVisibleAnimation(transition1);
             transition1.play();
         }
+    }
+
+    public boolean isFreezing() {
+        return isFreezing;
+    }
+
+    public void setFreezing(boolean freezing) {
+        isFreezing = freezing;
     }
 }

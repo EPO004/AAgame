@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Ball;
@@ -25,6 +26,12 @@ public class GameControl {
     @FXML
     private Label windDegree;
     private String windString = "Wind Degree : 0";
+    @FXML
+    private ProgressBar freeze;
+    private double freezeProgress=0;
+    @FXML
+    private Label ability;
+    private String abilityString = "Ability : 0%";
 
     public GameControl() {
         gameControl = this;
@@ -59,7 +66,9 @@ public class GameControl {
         ballLeft.setText(ballLeftString);
         timeLeft.setText(time);
         score.setText(scoreString);
+        ability.setText(abilityString);
         windDegree.setText(windString);
+        freeze.setProgress(freezeProgress);
     }
 
     public void setTimeLeft(String time) {
@@ -82,6 +91,21 @@ public class GameControl {
 
     public void setWindString(String windString) {
         this.windString = windString;
+        initialize();
+    }
+    public void updateFreeze(){
+        freezeProgress+=0.2f;
+        if (freezeProgress > 1f) freezeProgress = 1f;
+        abilityString = "Ability : "+ freezeProgress*100 + "%";
+        initialize();
+    }
+
+    public double getFreezeProgress() {
+        return freezeProgress;
+    }
+    public void applyFreeze(){
+        freezeProgress=0f;
+        abilityString = "Ability : 0%";
         initialize();
     }
 }

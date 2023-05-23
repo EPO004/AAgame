@@ -8,6 +8,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Ball;
 import model.Connection;
+import view.Game;
 
 import java.util.Random;
 import java.util.Timer;
@@ -28,6 +29,7 @@ public class Phase2Transition extends Transition {
     public double angle = 90;
     Ball ball;
     double velocity;
+    double primaryVelocity;
 
     public Phase2Transition(Node node, double pivotX, double pivotY, double velocity, double angle) {
         this.node = node;
@@ -35,6 +37,7 @@ public class Phase2Transition extends Transition {
         this.pivotY = pivotY;
         this.velocity = velocity;
         ball = (Ball) node;
+        primaryVelocity = velocity;
         this.angle = angle;
         x = ball.getCenterX();
         y = ball.getCenterY();
@@ -44,6 +47,7 @@ public class Phase2Transition extends Transition {
     }
     public Phase2Transition(Node node, double pivotX, double pivotY, double velocity, boolean isLine) {
         this.node = node;
+        primaryVelocity = velocity;
         this.pivotX = pivotX;
         line = (Connection) node;
         this.pivotY = pivotY;
@@ -61,6 +65,8 @@ public class Phase2Transition extends Transition {
 
     @Override
     protected void interpolate(double frac) {
+        if (Game.getCenterDisk().isFreezing()) velocity = primaryVelocity/2;
+        else velocity = primaryVelocity;
       //  System.out.println(nextTime);
         angle += velocity;
         angle%=360;

@@ -12,7 +12,7 @@ public class Pause {
     public void resume(MouseEvent mouseEvent) {
         Game.getPopUpStage().close();
         Game.getTimeline().play();
-        Game.getWindDegree().play();
+         Game.getWindDegree().play();
         Game.getCenterDisk().playTurning();
         Game.getBall().requestFocus();
     }
@@ -21,6 +21,7 @@ public class Pause {
         Game game = new Game();
         Game.getPopUpStage().close();
         Game.getAudioClip().stop();
+        if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
         Game.setWindDegree(null);
         MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getRealBalls());
         game.start(LoginMenu.getStage());

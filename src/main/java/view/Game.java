@@ -111,9 +111,6 @@ public class Game extends Application {
                 Random random = new Random();
                 boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 +1;
                 int number = random.nextInt(31) - 15;
-                if (keyName.equals("R")){
-
-                }
                 if (keyName.equals("Space")){
                     if (ballCount && windDegree[0]==null) {
                         windDegree[0] = new WindDegree();
@@ -122,15 +119,39 @@ public class Game extends Application {
                     shoot(ball, angle, windDegree[0]);
                     Game.windDegree = windDegree[0];
                 }
-                if (keyName.equals("D") && ballCount){
+                else if (keyName.equals("D") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
                     ball.setCenterX(ball.getCenterX()+10);
                 }
-                if (keyName.equals("A") && ballCount){
+                else if (keyName.equals("A") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
                     ball.setCenterX(ball.getCenterX()-10);
+                }
+                else if (keyName.equals("Shift") && gameControl.getFreezeProgress()==1){
+                    gameControl.applyFreeze();
+                    centerDisk.setFreezing(true);
+                    ball.requestFocus();
+                    timeFreeze();
                 }
             }
         });
         return ball;
+    }
+    private void timeFreeze(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.seconds(MainMenu.getUser().getGameSetting().getFreezeSecond()),
+                        event -> {
+                            centerDisk.setFreezing(false);
+                            try {
+                                stop();
+                                return;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                )
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
     private void shoot(Ball ball, int angle[], WindDegree windDegree){
         try {

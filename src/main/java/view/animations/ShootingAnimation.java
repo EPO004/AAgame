@@ -7,9 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
@@ -72,6 +69,7 @@ public class ShootingAnimation extends Transition {
         GameSetting gameSetting = MainMenu.getUser().getGameSetting();
         Game.getGameControl().setScoreString("Score : "+ ((gameSetting.getRealBalls()-gameSetting.getAllBalls())*10));
         pane.getChildren().remove(ball);
+        Game.getGameControl().updateFreeze();
         ball = new Ball(centerDisk, true);
         applyPhase(ball);
         if (MainMenu.getUser().getGameSetting().getAllBalls()==0){
@@ -113,8 +111,8 @@ public class ShootingAnimation extends Transition {
     private void applyPhase(Ball ball){
         int balls = MainMenu.getUser().getGameSetting().getAllBalls();
         int quarter = MainMenu.getUser().getGameSetting().getRealBalls()/4;
-        if (balls >= quarter*3) centerDisk.addBall(ball);
-        else if (balls >= quarter*2){
+        if (balls > quarter*3) centerDisk.addBall(ball);
+        else if (balls > quarter*2){
             centerDisk.addBall(ball);
             centerDisk.stopTurning();
             centerDisk.makeShootedPhase2();
@@ -124,6 +122,7 @@ public class ShootingAnimation extends Transition {
             centerDisk.addBall(ball);
             centerDisk.stopTurning();
             centerDisk.makeShootedPhase2();
+            centerDisk.phase2RadiusChange();
             centerDisk.phase3Visible();
         }
     }

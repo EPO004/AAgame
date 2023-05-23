@@ -13,6 +13,10 @@
             stylesheets="@../css/game.css">
             <top>
                 <VBox alignment="TOP_LEFT">
+                    <HBox alignment="TOP_LEFT" spacing="0">
+                        <Label text="" styleClass="Label2" fx:id="ability"/>
+                        <ProgressBar fx:id="freeze" styleClass="ProgressBar"/>
+                    </HBox>
                     <Label text="" fx:id="timeLeft" styleClass="Label"/>
                     <Label text="" fx:id="ballLeft" styleClass="Label"/>
                     <Label text="" fx:id="score" styleClass="Label"/>

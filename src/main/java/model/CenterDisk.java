@@ -48,7 +48,7 @@ public class CenterDisk extends Circle {
             if (ball.getRadiusChange()!=null) ball.getRadiusChange().stop();
             if (ball.getVisibleAnimation()!=null) ball.getVisibleAnimation().stop();
             if (lines.get(i).getVisibleAnimation()!=null) lines.get(i).getVisibleAnimation().stop();
-            lines.get(i).getTransition().play();
+            lines.get(i).getTransition().stop();
         }
     }
     public void playTurning(){
@@ -57,7 +57,7 @@ public class CenterDisk extends Circle {
             ball.getTransition().play();
             if (ball.getRadiusChange()!=null) ball.getRadiusChange().play();
             if (ball.getVisibleAnimation()!=null) ball.getVisibleAnimation().play();
-            if (lines.get(i).getVisibleAnimation()!=null) lines.get(i).getVisibleAnimation().stop();
+            if (lines.get(i).getVisibleAnimation()!=null) lines.get(i).getVisibleAnimation().play();
             lines.get(i).getTransition().play();
         }
         for (int i=0; i<lines.size(); i++){

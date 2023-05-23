@@ -12,6 +12,7 @@ public class Pause {
     public void resume(MouseEvent mouseEvent) {
         Game.getPopUpStage().close();
         Game.getTimeline().play();
+        Game.getWindDegree().play();
         Game.getCenterDisk().playTurning();
         Game.getBall().requestFocus();
     }
@@ -20,6 +21,7 @@ public class Pause {
         Game game = new Game();
         Game.getPopUpStage().close();
         Game.getAudioClip().stop();
+        Game.setWindDegree(null);
         MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getRealBalls());
         game.start(LoginMenu.getStage());
     }
@@ -27,6 +29,7 @@ public class Pause {
     public void exit(MouseEvent mouseEvent) throws Exception {
         Game.getPopUpStage().close();
         Game.getAudioClip().stop();
+        Game.setWindDegree(null);
         MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getRealBalls());
         MainMenu mainMenu = new MainMenu(MainMenu.onMusic, MainMenu.getUser());
         mainMenu.start(LoginMenu.getStage());

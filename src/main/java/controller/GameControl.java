@@ -1,18 +1,15 @@
 package controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import model.Ball;
 import model.CenterDisk;
-import model.Connection;
 import model.GameSetting;
 import view.*;
-import view.animations.Phase2Transition;
 import view.animations.ShootingAnimation;
+import view.animations.WindDegree;
 
 public class GameControl {
     private static GameControl gameControl;
@@ -33,7 +30,7 @@ public class GameControl {
         gameControl = this;
     }
 
-    public void shoot(Pane pane, CenterDisk centerDisk, Ball ball, double angle) throws Exception {
+    public void shoot(Pane pane, CenterDisk centerDisk, Ball ball, double angle, WindDegree windDegree) throws Exception {
         int balls = MainMenu.getUser().getGameSetting().getAllBalls();
         MainMenu.getUser().getGameSetting().setAllBalls(balls-1);
         ballLeftString = "Balls Left : "+MainMenu.getUser().getGameSetting().getAllBalls();
@@ -47,7 +44,7 @@ public class GameControl {
         ShootingAnimation shootingAnimation;
         GameSetting gameSetting = MainMenu.getUser().getGameSetting();
         if (gameSetting.getAllBalls() < gameSetting.getRealBalls()/4){
-            shootingAnimation = new ShootingAnimation(ball1, centerDisk, pane , angle);
+            shootingAnimation = new ShootingAnimation(ball1, centerDisk, pane , angle, windDegree);
             shootingAnimation.play();
         }
         else {

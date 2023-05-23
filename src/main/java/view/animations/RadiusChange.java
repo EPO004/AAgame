@@ -27,23 +27,24 @@ public class RadiusChange extends Transition {
         CenterDisk centerDisk = Game.getCenterDisk();
         ball.setRadius(ball.getRadius()+percent);
         ArrayList<Ball> balls = centerDisk.getCenterDisk();
+        for (int i =0; i<balls.size(); i++){
+            for (int j=i+1; j<balls.size(); j++){
+                Ball a = balls.get(i);
+                Ball b = balls.get(j);
+                double d = Math.sqrt((a.getCenterX()-b.getCenterX())*(a.getCenterX()-b.getCenterX()) + (a.getCenterY()-b.getCenterY())*(a.getCenterY()-b.getCenterY()));
+                if (d <= a.getRadius()+b.getRadius()){
+                    centerDisk.stopTurning();
+                    Game.getPane().setStyle("-fx-background-color: red");
+                    MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
+                    Game.getTimeline().stop();
+                    Game.endGame();
+                    return;
+                }
+            }
+        }
         setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                for (int i =0; i<balls.size(); i++){
-                    for (int j=i+1; j<balls.size(); j++){
-                        Ball a = balls.get(i);
-                        Ball b = balls.get(j);
-                        if (a.getBoundsInParent().intersects(b.getBoundsInParent())){
-                            centerDisk.stopTurning();
-                            Game.getPane().setStyle("-fx-background-color: red");
-                            MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
-                            Game.getTimeline().stop();
-                            Game.endGame();
-                            return;
-                        }
-                    }
-                }
                 setCycleDuration(Duration.seconds(1));
                 ball.setRadius(realRadius);
                 play();

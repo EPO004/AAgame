@@ -26,7 +26,8 @@ public class ShootingAnimation extends Transition {
     private Pane pane ;
     private CenterDisk centerDisk;
     private Ball ball;
-    private double angle= 50;
+    private double angle = 50;
+    private WindDegree windDegree;
 
     public ShootingAnimation(Pane pane,CenterDisk centerDisk, Ball ball) {
         this.pane = pane;
@@ -35,41 +36,37 @@ public class ShootingAnimation extends Transition {
         this.setCycleDuration(Duration.INDEFINITE);
         this.setCycleCount(1);
     }
-    public ShootingAnimation(Ball ball, CenterDisk centerDisk, Pane pane, double angle){
+    public ShootingAnimation(Ball ball, CenterDisk centerDisk, Pane pane, double angle, WindDegree windDegree){
         this.pane = pane;
         this.centerDisk = centerDisk;
         this.ball = ball;
         this.angle = angle;
+        this.windDegree = windDegree;
         Game.getGameControl().setWindString("Wind Degree : "+angle);
-        setCycleDuration(Duration.millis((5f/MainMenu.getUser().getGameSetting().getWindVelocity())*1000f));
-        setCycleCount(1);
+        setCycleDuration(Duration.INDEFINITE);
+        setCycleCount(-1);
     }
     @Override
     protected void interpolate(double frac) {
+        if (windDegree!=null)
+            angle = windDegree.angle;
         double y, x = ball.getCenterX();
-        if(angle==50) y = ball.getCenterY()-10;
+        if(angle==50) y = ball.getCenterY()-15;
         else {
-            y = ball.getCenterY() - 10 * Math.sin(Math.toRadians(90f + angle));
-            x = ball.getCenterX() + 10* Math.cos(Math.toRadians(90f + angle));
+            y = ball.getCenterY() - 15 * Math.sin(Math.toRadians(90f + angle));
+            x = ball.getCenterX() + 15* Math.cos(Math.toRadians(90f + angle));
         }
-        long d = (long) Math.sqrt((x-400)*(x-400) + (y-300)*(y-300));
+        double d =  Math.sqrt((x-400)*(x-400) + (y-300)*(y-300));
         if (failShoot()) return;
-        if ((x > 600 || x < 200 || y < 100)) {
+        if ((x > 750 || x < 50 || y < 50)) {
             outOfBorder();
             return;
         }
-        if (d>148 && d<152){
+        if (d>=148 && d<=152){
             successShoot();
         }
         ball.setCenterY(y);
         ball.setCenterX(x);
-        setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                setCycleDuration(Duration.millis((5f/MainMenu.getUser().getGameSetting().getWindVelocity())*1000f));
-                play();
-            }
-        });
     }
     private void successShoot(){
         GameSetting gameSetting = MainMenu.getUser().getGameSetting();
@@ -79,6 +76,7 @@ public class ShootingAnimation extends Transition {
         applyPhase(ball);
         if (MainMenu.getUser().getGameSetting().getAllBalls()==0){
             pane.setStyle("-fx-background-color: green");
+            if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
             centerDisk.stopTurning();
             this.stop();
             Game.getTimeline().stop();
@@ -92,8 +90,10 @@ public class ShootingAnimation extends Transition {
             if (b.getBoundsInParent().intersects(ball.getBoundsInLocal()) && ball.isVisible){
                 centerDisk.stopTurning();
                 pane.setStyle("-fx-background-color: red");
+                if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
                 MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
                 this.stop();
+                if (windDegree!=null) windDegree.stop();
                 Game.getTimeline().stop();
                 Game.endGame();
                 return true;
@@ -105,6 +105,7 @@ public class ShootingAnimation extends Transition {
         centerDisk.stopTurning();
         pane.setStyle("-fx-background-color: red");
         MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
+        if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
         this.stop();
         Game.getTimeline().stop();
         Game.endGame();
@@ -131,5 +132,9 @@ public class ShootingAnimation extends Transition {
         Random random = new Random();
         int number = random.nextInt(31) - 15;
         return number;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
     }
 }

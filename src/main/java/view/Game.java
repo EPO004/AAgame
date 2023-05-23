@@ -7,8 +7,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,12 +30,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import view.animations.WindDegree;
 
 import java.io.*;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Game extends Application {
@@ -49,10 +47,13 @@ public class Game extends Application {
     private static CenterDisk centerDisk;
     private static Circle ball;
     private static Stage primaryStage;
+    private static WindDegree windDegree;
 
     public Game() {
         Game.audioClip = new AudioClip(getClass().getResource("/sound/track1.mp3").toExternalForm());
         audioClip.setCycleCount(-1);
+        if (windDegree!=null) windDegree.setDuration();
+        windDegree = null;
     }
 
     @Override
@@ -75,6 +76,9 @@ public class Game extends Application {
         pauseButton.setOnMouseClicked(e -> {
             try {
                 timeline.stop();
+                if (windDegree!=null) {
+                    windDegree.stop();
+                }
                 centerDisk.stopTurning();
                 pauseMenu(primaryStage);
                 for (int i =5; i<centerDisk.getCenterDisk().size(); i++){
@@ -99,21 +103,24 @@ public class Game extends Application {
         Ball ball = new Ball(centerDisk);
         ball.requestFocus();
         final int[] angle = {0};
-        ball.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        final WindDegree[] windDegree = new WindDegree[1];
+        ball.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 String keyName = event.getCode().getName();
                 Random random = new Random();
-                boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4;
+                boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 +1;
                 int number = random.nextInt(31) - 15;
                 if (keyName.equals("R")){
-                    if (ballCount) {
-                        angle[0] = number;
-                        gameControl.setWindString("Wind Degree : " + angle[0]);
-                    }
+
                 }
                 if (keyName.equals("Space")){
-                   shoot(ball, angle);
+                    if (ballCount && windDegree[0]==null) {
+                        windDegree[0] = new WindDegree();
+                        windDegree[0].play();
+                    }
+                    shoot(ball, angle, windDegree[0]);
+                    Game.windDegree = windDegree[0];
                 }
                 if (keyName.equals("D") && ballCount){
                     ball.setCenterX(ball.getCenterX()+10);
@@ -125,10 +132,10 @@ public class Game extends Application {
         });
         return ball;
     }
-    private void shoot(Ball ball, int angle[]){
+    private void shoot(Ball ball, int angle[], WindDegree windDegree){
         try {
             if (MainMenu.getUser().getGameSetting().getAllBalls()==0) return;
-            gameControl.shoot(pane, centerDisk, ball, angle[0]);
+            gameControl.shoot(pane, centerDisk, ball, angle[0], windDegree);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,6 +227,7 @@ public class Game extends Application {
         Game.audioClip = audioClip;
     }
     public static void endGame(){
+        if (windDegree!= null)windDegree.setDuration();
         GameSetting gameSetting = MainMenu.getUser().getGameSetting();
         int finalScore = (gameSetting.getRealBalls()-gameSetting.getAllBalls())*10;
         BorderPane borderPane = new BorderPane();
@@ -255,7 +263,7 @@ public class Game extends Application {
     private static void exit(Button button, int score, int minute, int second, Stage stage){
         second = second + minute*60;
         int finalSecond = second;
-        System.out.println(finalSecond);
+        windDegree=null;
         button.setOnMouseClicked(event -> {
             audioClip.stop();
             User user = MainMenu.getUser();
@@ -286,6 +294,11 @@ public class Game extends Application {
                 }
         });
     }
+
+    public static WindDegree getWindDegree() {
+        return windDegree;
+    }
+
     private static void saveToJson(User user) throws IOException, ParseException {
         String path = "DataBase\\data.json";
         JSONParser parser = new JSONParser();
@@ -309,5 +322,10 @@ public class Game extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void setWindDegree(WindDegree windDegree) {
+        Game.windDegree = windDegree;
     }
 }

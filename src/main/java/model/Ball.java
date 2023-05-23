@@ -87,4 +87,5 @@ public class Ball extends Circle {
     public void setTransition(Transition transition) {
         this.transition = transition;
     }
+
 }

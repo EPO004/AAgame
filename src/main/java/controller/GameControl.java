@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import model.Ball;
 import model.CenterDisk;
 import model.Connection;
+import model.GameSetting;
 import view.*;
 import view.animations.Phase2Transition;
 import view.animations.ShootingAnimation;
@@ -24,12 +25,15 @@ public class GameControl {
     @FXML
     private Label score;
     private String scoreString = "Score : 0";
+    @FXML
+    private Label windDegree;
+    private String windString = "Wind Degree : 0";
 
     public GameControl() {
         gameControl = this;
     }
 
-    public void shoot(Pane pane, CenterDisk centerDisk, Ball ball) throws Exception {
+    public void shoot(Pane pane, CenterDisk centerDisk, Ball ball, double angle) throws Exception {
         int balls = MainMenu.getUser().getGameSetting().getAllBalls();
         MainMenu.getUser().getGameSetting().setAllBalls(balls-1);
         ballLeftString = "Balls Left : "+MainMenu.getUser().getGameSetting().getAllBalls();
@@ -38,9 +42,18 @@ public class GameControl {
         if (balls==1) {
             pane.getChildren().remove(ball);
         }
+        ball1.setCenterX(ball.getCenterX());
         pane.getChildren().addAll(ball1);
-        ShootingAnimation shootingAnimation = new ShootingAnimation(pane,centerDisk, ball1);
-        shootingAnimation.play();
+        ShootingAnimation shootingAnimation;
+        GameSetting gameSetting = MainMenu.getUser().getGameSetting();
+        if (gameSetting.getAllBalls() < gameSetting.getRealBalls()/4){
+            shootingAnimation = new ShootingAnimation(ball1, centerDisk, pane , angle);
+            shootingAnimation.play();
+        }
+        else {
+            shootingAnimation= new ShootingAnimation(pane,centerDisk, ball1);
+            shootingAnimation.play();
+        }
     }
     public void pause(MouseEvent mouseEvent) {
     }
@@ -49,7 +62,7 @@ public class GameControl {
         ballLeft.setText(ballLeftString);
         timeLeft.setText(time);
         score.setText(scoreString);
-
+        windDegree.setText(windString);
     }
 
     public void setTimeLeft(String time) {
@@ -68,5 +81,10 @@ public class GameControl {
 
     public String getTime() {
         return time;
+    }
+
+    public void setWindString(String windString) {
+        this.windString = windString;
+        initialize();
     }
 }

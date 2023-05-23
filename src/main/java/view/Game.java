@@ -37,6 +37,7 @@ import java.io.*;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Game extends Application {
@@ -96,22 +97,41 @@ public class Game extends Application {
     }
     private Ball newBall(CenterDisk centerDisk, Pane pane){
         Ball ball = new Ball(centerDisk);
+        ball.requestFocus();
+        final int[] angle = {0};
         ball.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 String keyName = event.getCode().getName();
-                if (keyName.equals("Space")){
-                    try {
-                        if (MainMenu.getUser().getGameSetting().getAllBalls()==0) return;
-                        gameControl.shoot(pane, centerDisk, ball);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                Random random = new Random();
+                boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4;
+                int number = random.nextInt(31) - 15;
+                if (keyName.equals("R")){
+                    if (ballCount) {
+                        angle[0] = number;
+                        gameControl.setWindString("Wind Degree : " + angle[0]);
                     }
-                    //centerDisk.addBall(new Ball(centerDisk, true));
+                }
+                if (keyName.equals("Space")){
+                   shoot(ball, angle);
+                }
+                if (keyName.equals("D") && ballCount){
+                    ball.setCenterX(ball.getCenterX()+10);
+                }
+                if (keyName.equals("A") && ballCount){
+                    ball.setCenterX(ball.getCenterX()-10);
                 }
             }
         });
         return ball;
+    }
+    private void shoot(Ball ball, int angle[]){
+        try {
+            if (MainMenu.getUser().getGameSetting().getAllBalls()==0) return;
+            gameControl.shoot(pane, centerDisk, ball, angle[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void timer(Pane pane, CenterDisk centerDisk){
         AtomicLong endTime = new AtomicLong(600);
@@ -235,11 +255,12 @@ public class Game extends Application {
     private static void exit(Button button, int score, int minute, int second, Stage stage){
         second = second + minute*60;
         int finalSecond = second;
+        System.out.println(finalSecond);
         button.setOnMouseClicked(event -> {
             audioClip.stop();
             User user = MainMenu.getUser();
             user.setScore(user.getScore()+score);
-            if (user.getPlayedTimeSecond() > finalSecond) user.setPlayedTimeSecond(finalSecond);
+            if (user.getPlayedTimeSecond() > finalSecond || user.getPlayedTimeSecond()==0) user.setPlayedTimeSecond(finalSecond);
             if (user.getGameSetting().getAllBalls() == 0){
                 if (user.getGameSetting().getDifficulty()==1)
                     user.setEasyPlayed(user.getEasyPlayed()+1);

@@ -47,11 +47,8 @@ public class CenterDisk extends Circle {
             ball.getTransition().stop();
             if (ball.getRadiusChange()!=null) ball.getRadiusChange().stop();
             if (ball.getVisibleAnimation()!=null) ball.getVisibleAnimation().stop();
-        }
-        for (int i=0; i<lines.size(); i++){
-            Connection line =(Connection)lines.get(i);
-            line.getTransition().stop();
-            if (line.getVisibleAnimation()!=null) line.getVisibleAnimation().stop();
+            if (lines.get(i).getVisibleAnimation()!=null) lines.get(i).getVisibleAnimation().stop();
+            lines.get(i).getTransition().play();
         }
     }
     public void playTurning(){
@@ -60,6 +57,8 @@ public class CenterDisk extends Circle {
             ball.getTransition().play();
             if (ball.getRadiusChange()!=null) ball.getRadiusChange().play();
             if (ball.getVisibleAnimation()!=null) ball.getVisibleAnimation().play();
+            if (lines.get(i).getVisibleAnimation()!=null) lines.get(i).getVisibleAnimation().stop();
+            lines.get(i).getTransition().play();
         }
         for (int i=0; i<lines.size(); i++){
             Connection line =(Connection)lines.get(i);
@@ -70,16 +69,17 @@ public class CenterDisk extends Circle {
     private void setDefaultBalls() throws InterruptedException {
         int allBalls = MainMenu.getUser().getGameSetting().getMapBallFormat();
         int format = MainMenu.getUser().getGameSetting().getMapFormat();
-        double angle = format*6;
+        double angle = format*17;
         for (int i=0; i<allBalls; i++){
-            Ball ball = new Ball(400+Math.cos(angle*i)*150, 300+Math.sin(angle*i)*150);
+            Ball ball = new Ball(400f+Math.cos(Math.toRadians(angle*i))*150f, 300f+Math.sin(Math.toRadians(angle*i))*150f);
             line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
             line.setFill(Color.BLACK);
             TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
-            transition1.play();
-            TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
+            TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, (double) (angle*i));
             transition.play();
+            transition1.play();
             lines.add(line);
+            line.setOwnerBall(ball);
             centerDisk.add(ball);
             Game.getPane().getChildren().add(ball);
             Game.getPane().getChildren().add(line);
@@ -90,10 +90,11 @@ public class CenterDisk extends Circle {
     public void phase1(Ball ball){
         line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
         line.setFill(Color.BLACK);
-        TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5);
+        TurningTransition transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, 90);
         TurningTransition transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
         lines.add(line);
         centerDisk.add(ball);
+        line.setOwnerBall(ball);
         Game.getPane().getChildren().add(line);
         Game.getPane().getChildren().add(ball);
         ball.setTransition(transition);
@@ -112,12 +113,21 @@ public class CenterDisk extends Circle {
         if (number%2 == 0) velocity*=-1;
         for (int i=0; i<centerDisk.size(); i++){
                 Ball ball = (Ball) centerDisk.get(i);
-                Phase2Transition transition = new Phase2Transition( ball, 400f, 300f, velocity);
+                double angle;
+            if (ball.getTransition() instanceof TurningTransition) {
+                    TurningTransition turningTransition = (TurningTransition) ball.getTransition();
+                    angle = turningTransition.angle;
+                }
+            else {
+                Phase2Transition phase2Transition = (Phase2Transition) ball.getTransition();
+                angle = phase2Transition.angle;
+            }
+         //   System.out.println(turningTransition.angle);
+                Phase2Transition transition = new Phase2Transition( ball, 400f, 300f, velocity, angle);
                 ball.setTransition(transition);
                 transition.play();
             line = (Connection) lines.get(i);
             Phase2Transition transition1 = new Phase2Transition( line, 400f, 300f,velocity, true);
-            line.setTransition(transition1);
             transition1.play();
         }
         for (int i=0; i<lines.size(); i++){

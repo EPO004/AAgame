@@ -16,6 +16,7 @@
                     <Label text="" fx:id="timeLeft" styleClass="Label"/>
                     <Label text="" fx:id="ballLeft" styleClass="Label"/>
                     <Label text="" fx:id="score" styleClass="Label"/>
+                    <Label text="" fx:id="windDegree" styleClass="Label"/>
                 </VBox>
             </top>
 

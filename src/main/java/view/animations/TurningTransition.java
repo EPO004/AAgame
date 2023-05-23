@@ -8,6 +8,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import model.Ball;
 import model.CenterDisk;
+import model.Connection;
 
 import java.util.Timer;
 
@@ -17,16 +18,18 @@ public class TurningTransition extends Transition {
     double pivotY;
     double x;
     double y;
+    private Connection line;
     boolean isLine;
-    public static double angle=0;
+    public double angle=90;
     Ball ball;
     double velocity;
-    public TurningTransition(Node node, double pivotX, double pivotY, double velocity){
+    public TurningTransition(Node node, double pivotX, double pivotY, double velocity, double angle){
         this.node = node;
         this.velocity = velocity;
         this.pivotX = pivotX;
         this.pivotY = pivotY;
         ball = (Ball) node;
+        this.angle = angle;
         x = 400f;
         y = 300f;
         setCycleDuration(Duration.INDEFINITE);
@@ -36,25 +39,26 @@ public class TurningTransition extends Transition {
     public TurningTransition(Node node, double pivotX, double pivotY, double velocity, boolean isLine) {
         this.node = node;
         this.pivotX = pivotX;
+        line = (Connection) node;
         this.pivotY = pivotY;
         this.isLine = isLine;
         this.velocity = velocity;
         setCycleDuration(Duration.INDEFINITE);
-        this.setCycleCount(-1);
+        setCycleCount(-1);
     }
 
     @Override
     protected void interpolate(double frac) {
-        Rotate rotate = new Rotate();
-        rotate.setPivotX(pivotX);
-        rotate.setPivotY(pivotY);
-        rotate.setAngle(velocity);
-        node.getTransforms().add(rotate);
-        Timer timer = new Timer();
+        angle += velocity;
+        angle %=360;
         //stop();
-        if (ball!=null) {
-            ball.setX(400f + Math.cos(Math.toDegrees(angle)) * 150f);
-            ball.setY(300f + Math.sin(Math.toDegrees(angle)) * 150f);
+        if (ball!=null){
+            ball.setCenterX(400f + Math.cos(Math.toRadians(angle)) * 150f);
+            ball.setCenterY(300f + Math.sin(Math.toRadians(angle)) * 150f);
+        }
+        else {
+            line.setStartX(line.getOwnerBall().getCenterX());
+            line.setStartY(line.getOwnerBall().getCenterY());
         }
     }
 }

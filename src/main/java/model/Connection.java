@@ -7,6 +7,7 @@ import view.animations.VisibleAnimation;
 
 public class Connection extends Line {
     private Transition transition;
+    private Ball ownerBall;
     private VisibleAnimation visibleAnimation;
 
     public VisibleAnimation getVisibleAnimation() {
@@ -27,5 +28,13 @@ public class Connection extends Line {
 
     public void setTransition(Transition transition) {
         this.transition = transition;
+    }
+
+    public Ball getOwnerBall() {
+        return ownerBall;
+    }
+
+    public void setOwnerBall(Ball ownerBall) {
+        this.ownerBall = ownerBall;
     }
 }

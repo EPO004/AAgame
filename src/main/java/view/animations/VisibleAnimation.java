@@ -20,9 +20,9 @@ public class VisibleAnimation extends Transition {
     public VisibleAnimation(Node ball) {
         node = ball;
         transition =new FadeTransition();
-        setCycleDuration(Duration.seconds(3));
+        setCycleDuration(Duration.seconds(4));
         transition.setNode(node);
-        transition.setDuration(Duration.seconds(2));
+        transition.setDuration(Duration.seconds(3));
         transition.setFromValue(0);
         transition.setToValue(100);
         transition.play();
@@ -53,8 +53,8 @@ public class VisibleAnimation extends Transition {
                         }
                     }
                 }
-                transition.setDuration(Duration.seconds(2));
-                visibleAnimation.setCycleDuration(Duration.seconds(3));
+                transition.setDuration(Duration.seconds(3));
+                visibleAnimation.setCycleDuration(Duration.seconds(4));
                 visibleAnimation.play();
                 transition.play();
             }

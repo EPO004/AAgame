@@ -55,6 +55,7 @@ public class Pause {
     }
 
     public void track1(MouseEvent mouseEvent) {
+        if (!MainMenu.getUser().getGameSetting().isMusicOn()) return;
         if (Game.getAudioClip().getSource().contains("track1")) return;
         Game.getAudioClip().stop();
         Game.setAudioClip(new AudioClip(getClass().getResource("/sound/track1.mp3").toExternalForm()));
@@ -63,6 +64,7 @@ public class Pause {
     }
 
     public void track2(MouseEvent mouseEvent) {
+        if (!MainMenu.getUser().getGameSetting().isMusicOn()) return;
         if (Game.getAudioClip().getSource().contains("track2")) return;
         Game.getAudioClip().stop();
         Game.setAudioClip(new AudioClip(getClass().getResource("/sound/track2.mp3").toExternalForm()));
@@ -71,6 +73,7 @@ public class Pause {
     }
 
     public void track3(MouseEvent mouseEvent) {
+        if (!MainMenu.getUser().getGameSetting().isMusicOn()) return;
         if (Game.getAudioClip().getSource().contains("track3")) return;
         Game.getAudioClip().stop();
         Game.setAudioClip(new AudioClip(getClass().getResource("/sound/track3.mp3").toExternalForm()));

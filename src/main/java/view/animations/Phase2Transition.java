@@ -72,6 +72,7 @@ public class Phase2Transition extends Transition {
         angle%=360;
         if (ball!=null) {
            // System.out.println(1);
+            ball.setAngle(angle);
             ball.setCenterX(400f + Math.cos(Math.toRadians(angle)) * 150f);
             ball.setCenterY(300f + Math.sin(Math.toRadians(angle)) * 150f);
         }

@@ -14,7 +14,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.Ball;
 import model.GameSetting;
+import model.LastGame;
 import model.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -89,6 +91,7 @@ public class MainMenu extends Application {
             temp = (JSONObject) temp.get("user");
             if (temp.get("username").equals(user.getUsername())){
                 JSONObject setting = (JSONObject) temp.get("setting");
+                if (setting==null) return;
                 GameSetting gameSetting = user.getGameSetting();
                 gameSetting.setDifficulty(((Long) setting.get("difficulty")).intValue());
                 gameSetting.setAllBalls(((Long) setting.get("ball")).intValue());
@@ -97,8 +100,46 @@ public class MainMenu extends Application {
                 gameSetting.setMusicOn((Boolean) setting.get("music"));
                 gameSetting.setSoundOn((Boolean) setting.get("sound"));
                 gameSetting.setIsBlackWhite(((Long) setting.get("color")).intValue());
-                System.out.println(setting.get("color"));
             }
+        }
+    }
+    public void loadLastGame() throws IOException, ParseException {
+        String path = "DataBase\\data.json";
+        JSONParser parser = new JSONParser();
+        JSONArray a;
+        LastGame lastGame = new LastGame();
+        if (new FileReader(path).read()==-1) a = new JSONArray();
+        else a = (JSONArray) parser.parse(new FileReader(path));
+        for (Object j : a){
+            JSONObject temp = (JSONObject) j;
+            temp = (JSONObject) temp.get("user");
+            if (temp.get("username").equals(user.getUsername())){
+                JSONObject game = (JSONObject) temp.get("resume");
+                if (game==null) return;
+                lastGame.setFreeze((Double) game.get("freeze"));
+                lastGame.setSecond(((Long)game.get("second")).intValue());
+                lastGame.setMinute(((Long)game.get("minute")).intValue());
+                lastGame.setVisibleTransition((Boolean) game.get("visible"));
+                lastGame.setRadiusChange((Boolean) game.get("radius"));
+                lastGame.setPhase2Transition((Boolean) game.get("phase2"));
+                lastGame.setTurningTransition((Boolean) game.get("phase1"));
+                lastGame.setRemainBalls(((Long)game.get("remainBalls")).intValue());
+                loadBalls(lastGame, game);
+                MainMenu.getUser().setLastGame(lastGame);
+            }
+        }
+    }
+    private void loadBalls(LastGame lastGame, JSONObject game){
+        int count = ((Long) game.get("count")).intValue();
+        JSONObject ball = (JSONObject) game.get("balls");
+        for (int i =0; i<count; i++){
+            JSONObject coordinate = (JSONObject) ball.get("ball"+i);
+            double x = ((Double)coordinate.get("x"));
+            double y = ((Double) coordinate.get("y"));
+            double angle = (Double) coordinate.get("angle");
+            Ball ball1 = new Ball(x , y);
+            ball1.setAngle(angle);
+            lastGame.addBall(ball1);
         }
     }
 

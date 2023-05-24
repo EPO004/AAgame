@@ -61,6 +61,7 @@ public class TurningTransition extends Transition {
         if (ball!=null){
             ball.setCenterX(400f + Math.cos(Math.toRadians(angle)) * 150f);
             ball.setCenterY(300f + Math.sin(Math.toRadians(angle)) * 150f);
+            ball.setAngle(angle);
         }
         else {
             line.setStartX(line.getOwnerBall().getCenterX());

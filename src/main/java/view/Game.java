@@ -16,16 +16,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import model.Ball;
-import model.CenterDisk;
-import model.GameSetting;
-import model.User;
+import model.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -48,8 +47,19 @@ public class Game extends Application {
     private static Circle ball;
     private static Stage primaryStage;
     private static WindDegree windDegree;
+    private static boolean resume = false;
+    private LastGame lastGame;
 
     public Game() {
+        Game.audioClip = new AudioClip(getClass().getResource("/sound/track1.mp3").toExternalForm());
+        audioClip.setCycleCount(-1);
+        Game.resume = false;
+        if (windDegree!=null) windDegree.setDuration();
+        windDegree = null;
+    }
+    public Game(boolean resume) {
+        Game.resume = resume;
+        windDegree = null;
         Game.audioClip = new AudioClip(getClass().getResource("/sound/track1.mp3").toExternalForm());
         audioClip.setCycleCount(-1);
         if (windDegree!=null) windDegree.setDuration();
@@ -64,11 +74,19 @@ public class Game extends Application {
         Game.pane = pane;
         BorderPane borderPane = FXMLLoader.load(url);
         gameControl = GameControl.getGameControl();
+        CenterDisk centerDisk = new CenterDisk(resume);
+        System.out.println(resume);
+        if (resume) {
+            lastGame = gameControl.load(pane, centerDisk);
+            MainMenu.getUser().getGameSetting().setAllBalls(lastGame.getRemainBalls());
+            windDegree = new WindDegree();
+            windDegree.play();
+            System.out.println(windDegree);
+        }
         pane.setStyle("-fx-background-color: wheat");
         Button pauseButton = getStyled("Pause");
         VBox vBox = new VBox(pauseButton, borderPane);
         pane.getChildren().add(vBox);
-        CenterDisk centerDisk = new CenterDisk();
         Game.centerDisk = centerDisk;
         Circle ball = newBall(centerDisk, pane);
         Game.ball = ball;
@@ -98,7 +116,6 @@ public class Game extends Application {
         ball.requestFocus();
         if (MainMenu.getUser().getGameSetting().isMusicOn()) audioClip.play();
         primaryStage.show();
-        System.out.println(this.toString());
     }
     private Ball newBall(CenterDisk centerDisk, Pane pane){
         Ball ball = new Ball(centerDisk);
@@ -113,25 +130,29 @@ public class Game extends Application {
                 boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 +1;
                 int number = random.nextInt(31) - 15;
                 if (keyName.equals("Space")){
-                    if (ballCount && windDegree[0]==null) {
+                    if (ballCount && windDegree[0]==null && Game.windDegree==null) {
                         windDegree[0] = new WindDegree();
                         windDegree[0].play();
                     }
                     shoot(ball, angle, windDegree[0]);
-                    Game.windDegree = windDegree[0];
+                    Media media = new Media(getClass().getResource("/sound/shoot.mp3").toExternalForm());
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    if (MainMenu.getUser().getGameSetting().isSoundOn()) mediaPlayer.play();
+                    if (Game.windDegree==null)Game.windDegree = windDegree[0];
                 }
                 else if (keyName.equals("D") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
-                    ball.setCenterX(ball.getCenterX()+10);
+                    if (ball.getCenterX()<600)ball.setCenterX(ball.getCenterX()+10);
                 }
                 else if (keyName.equals("A") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
-                    ball.setCenterX(ball.getCenterX()-10);
+                    if (ball.getCenterX()>200)ball.setCenterX(ball.getCenterX()-10);
                 }
                 else if (keyName.equals("Shift") && gameControl.getFreezeProgress()==1){
-                    System.out.println(MainMenu.getUser().getGameSetting().getFreezeSecond());
-                    gameControl.applyFreeze();
-                    centerDisk.setFreezing(true);
-                    ball.requestFocus();
-                    timeFreeze();
+                    if (!centerDisk.isFreezing()){
+                        gameControl.applyFreeze();
+                        centerDisk.setFreezing(true);
+                        ball.requestFocus();
+                        timeFreeze();
+                    }
                 }
             }
         });
@@ -164,14 +185,18 @@ public class Game extends Application {
         }
     }
     private void timer(Pane pane, CenterDisk centerDisk){
-        AtomicLong endTime = new AtomicLong(600);
+        int endTime = 600;
+        if (lastGame!=null){
+            endTime = lastGame.getMinute()*60 + lastGame.getSecond();
+        }
+        AtomicInteger finalEndTime = new AtomicInteger(endTime);
         timeline = new Timeline(
                 new KeyFrame(
                         Duration.seconds(1),
                         event -> {
                             long diff = 0;
-                            if (endTime.intValue()>=0) diff = endTime.get() - 1;
-                            endTime.addAndGet(-1);
+                            if (finalEndTime.intValue()>=0) diff = finalEndTime.get() - 1;
+                            finalEndTime.addAndGet(-1);
                             if ( diff == -1 ) {
                                 centerDisk.stopTurning();
                                 pane.setStyle("-fx-background-color: red");
@@ -189,7 +214,7 @@ public class Game extends Application {
                 )
         );
         timeline.setCycleCount( Animation.INDEFINITE );
-        if (endTime.intValue()==-1) timeline.stop();
+        if (endTime==-1) timeline.stop();
         else timeline.play();
     }
 
@@ -282,6 +307,7 @@ public class Game extends Application {
         popUpStage = popupStage;
         exit(button, finalScore, minute, second, popupStage);
         popupStage.show();
+        if (resume) MainMenu.getUser().setLastGame(null);
     }
     private static void exit(Button button, int score, int minute, int second, Stage stage){
         second = second + minute*60;

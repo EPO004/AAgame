@@ -30,6 +30,7 @@ public class ShootingAnimation extends Transition {
         this.pane = pane;
         this.centerDisk = centerDisk;
         this.ball = ball;
+        this.windDegree = Game.getWindDegree();
         this.setCycleDuration(Duration.INDEFINITE);
         this.setCycleCount(1);
     }
@@ -38,7 +39,7 @@ public class ShootingAnimation extends Transition {
         this.centerDisk = centerDisk;
         this.ball = ball;
         this.angle = angle;
-        this.windDegree = windDegree;
+        this.windDegree = Game.getWindDegree();
         Game.getGameControl().setWindString("Wind Degree : "+angle);
         setCycleDuration(Duration.INDEFINITE);
         setCycleCount(-1);
@@ -77,6 +78,10 @@ public class ShootingAnimation extends Transition {
             if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
             centerDisk.stopTurning();
             this.stop();
+            Game.getPane().getChildren().remove(Game.getBall());
+            Game.getPane().getChildren().remove(ball);
+            EndTransition endTransition = new EndTransition();
+            endTransition.play();
             Game.getTimeline().stop();
             Game.endGame();
         }
@@ -88,10 +93,16 @@ public class ShootingAnimation extends Transition {
             if (b.getBoundsInParent().intersects(ball.getBoundsInLocal()) && ball.isVisible){
                 centerDisk.stopTurning();
                 pane.setStyle("-fx-background-color: red");
-                if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
+                System.out.println(Game.getWindDegree());
+                if (Game.getWindDegree()!=null) {
+                    Game.getWindDegree().stop();
+                }
                 MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
                 this.stop();
-                if (windDegree!=null) windDegree.stop();
+                Game.getPane().getChildren().remove(Game.getBall());
+                Game.getPane().getChildren().remove(ball);
+                EndTransition endTransition = new EndTransition();
+                endTransition.play();
                 Game.getTimeline().stop();
                 Game.endGame();
                 return true;
@@ -105,6 +116,10 @@ public class ShootingAnimation extends Transition {
         MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
         if (Game.getWindDegree()!=null) Game.getWindDegree().stop();
         this.stop();
+        Game.getPane().getChildren().remove(Game.getBall());
+        Game.getPane().getChildren().remove(ball);
+        EndTransition endTransition = new EndTransition();
+        endTransition.play();
         Game.getTimeline().stop();
         Game.endGame();
     }

@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import view.*;
 
@@ -33,6 +34,28 @@ public class MainMenuControl {
     public void startGame(MouseEvent mouseEvent) throws Exception {
         MainMenu.getAudioClip().stop();
         Game game = new Game();
+        game.start(LoginMenu.getStage());
+    }
+
+    public void resume(MouseEvent mouseEvent) throws Exception {
+        if (MainMenu.getUser().getPassword()==null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Resume Failed");
+            alert.setContentText("You don't have any account,\n please first register then try.");
+            alert.showAndWait();
+            return;
+        }
+        if (MainMenu.getUser().getLastGame()==null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Loading Game Failed");
+            alert.setContentText("You don't have any last game,\n please first start game then save it.");
+            alert.showAndWait();
+            return;
+        }
+        MainMenu.getAudioClip().stop();
+        Game game = new Game(true);
         game.start(LoginMenu.getStage());
     }
 }

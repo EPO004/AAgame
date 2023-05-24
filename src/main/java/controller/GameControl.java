@@ -8,9 +8,12 @@ import javafx.scene.layout.Pane;
 import model.Ball;
 import model.CenterDisk;
 import model.GameSetting;
+import model.LastGame;
 import view.*;
 import view.animations.ShootingAnimation;
 import view.animations.WindDegree;
+
+import java.util.ArrayList;
 
 public class GameControl {
     private static GameControl gameControl;
@@ -107,5 +110,22 @@ public class GameControl {
         freezeProgress=0f;
         abilityString = "Ability : 0%";
         initialize();
+    }
+    public LastGame load(Pane pane, CenterDisk centerDisk){
+        LastGame lastGame = MainMenu.getUser().getLastGame();
+        ballLeftString = "Balls Left : " + lastGame.getRemainBalls();
+        scoreString = "Score : " + ((MainMenu.getUser().getGameSetting().getRealBalls()-lastGame.getRemainBalls())*10);
+        time = "Time Left : " + String.format("%02d:%02d", lastGame.getMinute(), lastGame.getSecond());
+        freezeProgress = lastGame.getFreeze();
+        abilityString = "Ability : " + (freezeProgress*100);
+        initialize();
+        loadShapes(pane, centerDisk, lastGame);
+        return lastGame;
+    }
+    public void loadShapes(Pane pane , CenterDisk centerDisk, LastGame lastGame){
+        ArrayList<Ball> balls = lastGame.getBalls();
+        for (int i=0 ; i<balls.size(); i++){
+            centerDisk.loadMap(balls.get(i), pane, lastGame);
+        }
     }
 }

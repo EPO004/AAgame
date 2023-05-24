@@ -37,7 +37,11 @@ public class RadiusChange extends Transition {
                     Game.getPane().setStyle("-fx-background-color: red");
                     MainMenu.getUser().getGameSetting().setAllBalls(MainMenu.getUser().getGameSetting().getAllBalls()+1);
                     Game.getTimeline().stop();
-                    balls.clear();
+                    Game.getPane().getChildren().remove(Game.getBall());
+                    Game.getPane().getChildren().remove(ball);
+                    EndTransition endTransition = new EndTransition();
+                    endTransition.play();
+                    stop();
                     Game.endGame();
                     return;
                 }

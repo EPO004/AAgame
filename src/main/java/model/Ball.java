@@ -15,6 +15,7 @@ public class Ball extends Circle {
     private Transition transition;
     private RadiusChange radiusChange;
     public boolean isVisible = true;
+    private double angle;
     private VisibleAnimation visibleAnimation;
     private Circle ball;
     private double x = 300f;
@@ -88,4 +89,11 @@ public class Ball extends Circle {
         this.transition = transition;
     }
 
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
 }

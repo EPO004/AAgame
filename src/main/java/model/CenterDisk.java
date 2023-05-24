@@ -2,10 +2,12 @@ package model;
 
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
+import javafx.animation.Transition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -30,10 +32,10 @@ public class CenterDisk extends Circle {
     private ArrayList<Ball> centerDisk;
     private ArrayList<Connection> lines = new ArrayList<>();
     private Connection line;
-    public CenterDisk () throws InterruptedException {
+    public CenterDisk (boolean resume) throws InterruptedException {
         super(400f, 300f, 70f);
         centerDisk = new ArrayList<>();
-        setDefaultBalls();
+        if (!resume)setDefaultBalls();
     }
 
     public ArrayList<Ball> getCenterDisk() {
@@ -146,10 +148,10 @@ public class CenterDisk extends Circle {
     public void phase3Visible(){
         for (int i=0; i<centerDisk.size(); i++){
             Ball ball = (Ball) centerDisk.get(i);
+            line = (Connection) lines.get(i);
             VisibleAnimation transition = new VisibleAnimation( ball);
             ball.setVisibleAnimation(transition);
             transition.play();
-            line = (Connection) lines.get(i);
             VisibleAnimation transition1 = new VisibleAnimation( line);
             line.setVisibleAnimation(transition1);
             transition1.play();
@@ -162,5 +164,49 @@ public class CenterDisk extends Circle {
 
     public void setFreezing(boolean freezing) {
         isFreezing = freezing;
+    }
+    public void loadMap(Ball ball0, Pane pane, LastGame lastGame){
+        double angle = ball0.getAngle();
+        Ball ball = new Ball(ball0.getCenterX(), ball0.getCenterY());
+        line = new Connection(ball.getCenterX(), ball.getCenterY(), 400f, 300f);
+        line.setFill(Color.BLACK);
+        lines.add(line);
+        line.setOwnerBall(ball);
+        centerDisk.add(ball);
+        Game.getPane().getChildren().add(ball);
+        Game.getPane().getChildren().add(line);
+        loadTransition(ball, line, angle, lastGame);
+    }
+    public void loadTransition(Ball ball, Connection line, double angle, LastGame lastGame){
+        Transition transition=null, transition1=null;
+        int velocity = MainMenu.getUser().getGameSetting().getTurningVelocity()/5;
+        if (lastGame.isTurningTransition()){
+            transition = new TurningTransition( ball, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, angle);
+            transition1 = new TurningTransition( line, 400f, 300f, MainMenu.getUser().getGameSetting().getTurningVelocity()/5, true);
+        }
+        else if (lastGame.isPhase2Transition()){
+            transition = new Phase2Transition(ball, 400f, 300f, velocity, angle);
+            transition1 = new Phase2Transition(line, 400f, 300f,velocity, true);
+        }
+        transition.play();
+        transition1.play();
+        ball.setTransition(transition);
+        line.setTransition(transition1);
+        loadOther(ball, line, lastGame);
+    }
+    public void loadOther(Ball ball, Connection line, LastGame lastGame){
+        if (lastGame.isRadiusChange()){
+            RadiusChange transition = new RadiusChange( ball);
+            ball.setRadiusChange(transition);
+            transition.play();
+        }
+        if (lastGame.isVisibleTransition()){
+            VisibleAnimation transition = new VisibleAnimation( ball);
+            ball.setVisibleAnimation(transition);
+            transition.play();
+            VisibleAnimation transition1 = new VisibleAnimation( line);
+            line.setVisibleAnimation(transition1);
+            transition1.play();
+        }
     }
 }

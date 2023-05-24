@@ -82,6 +82,7 @@ public class LoginMenuControl {
             resetFields(this.username, this.password);
             MainMenu mainMenu = new MainMenu(MainMenu.onMusic, user);
             mainMenu.loadSetting();
+            mainMenu.loadLastGame();
             mainMenu.start(LoginMenu.getStage());
         }
     }

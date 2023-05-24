@@ -21,6 +21,7 @@
                     <Label text="" fx:id="ballLeft" styleClass="Label"/>
                     <Label text="" fx:id="score" styleClass="Label"/>
                     <Label text="" fx:id="windDegree" styleClass="Label"/>
+                    <Label layoutX="400" layoutY="150" text="" fx:id="ballCount" style="-fx-text-fill: white"/>
                 </VBox>
             </top>
 

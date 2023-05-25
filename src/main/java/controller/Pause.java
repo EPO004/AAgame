@@ -165,4 +165,8 @@ public class Pause {
         jsonObject.put("count", countOfBall);
         return jsonObject;
     }
+
+    public void hint(MouseEvent mouseEvent) {
+        Game.hint();
+    }
 }

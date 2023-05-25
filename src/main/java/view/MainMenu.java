@@ -100,6 +100,10 @@ public class MainMenu extends Application {
                 gameSetting.setMusicOn((Boolean) setting.get("music"));
                 gameSetting.setSoundOn((Boolean) setting.get("sound"));
                 gameSetting.setIsBlackWhite(((Long) setting.get("color")).intValue());
+                gameSetting.getKeys()[0] = (String) setting.get("shoot");
+                gameSetting.getKeys()[1] = (String) setting.get("freeze");
+                gameSetting.getKeys()[2] = (String) setting.get("right");
+                gameSetting.getKeys()[3] = (String) setting.get("left");
             }
         }
     }

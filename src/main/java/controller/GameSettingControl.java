@@ -171,6 +171,10 @@ public class GameSettingControl {
                 setting.put("map", user.getGameSetting().getMapBallFormat());
                 setting.put("music", user.getGameSetting().isMusicOn());
                 setting.put("sound", user.getGameSetting().isSoundOn());
+                setting.put("shoot", user.getGameSetting().getKeys()[0]);
+                setting.put("freeze", user.getGameSetting().getKeys()[1]);
+                setting.put("right", user.getGameSetting().getKeys()[2]);
+                setting.put("left", user.getGameSetting().getKeys()[3]);
                 setting.put("color", user.getGameSetting().getIsBlackWhite());
                 temp.put("setting", setting);
             }
@@ -181,5 +185,9 @@ public class GameSettingControl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void change(MouseEvent mouseEvent) {
+        GameSettingMenu.changeMenu();
     }
 }

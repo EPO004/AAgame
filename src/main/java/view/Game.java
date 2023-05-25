@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -29,6 +30,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import view.animations.FreezeAnimation;
 import view.animations.WindDegree;
 
 import java.io.*;
@@ -129,7 +131,7 @@ public class Game extends Application {
                 Random random = new Random();
                 boolean ballCount = MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 +1;
                 int number = random.nextInt(31) - 15;
-                if (keyName.equals("Space")){
+                if (keyName.equals(MainMenu.getUser().getGameSetting().getKeys()[0])){
                     if (ballCount && windDegree[0]==null && Game.windDegree==null) {
                         windDegree[0] = new WindDegree();
                         windDegree[0].play();
@@ -140,16 +142,18 @@ public class Game extends Application {
                     if (MainMenu.getUser().getGameSetting().isSoundOn()) mediaPlayer.play();
                     if (Game.windDegree==null)Game.windDegree = windDegree[0];
                 }
-                else if (keyName.equals("D") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
+                else if (keyName.equals(MainMenu.getUser().getGameSetting().getKeys()[2]) && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
                     if (ball.getCenterX()<600)ball.setCenterX(ball.getCenterX()+10);
                 }
-                else if (keyName.equals("A") && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
+                else if (keyName.equals(MainMenu.getUser().getGameSetting().getKeys()[3]) && MainMenu.getUser().getGameSetting().getAllBalls() <= MainMenu.getUser().getGameSetting().getRealBalls()/4 ){
                     if (ball.getCenterX()>200)ball.setCenterX(ball.getCenterX()-10);
                 }
-                else if (keyName.equals("Shift") && gameControl.getFreezeProgress()==1){
+                else if (keyName.equals(MainMenu.getUser().getGameSetting().getKeys()[1]) && gameControl.getFreezeProgress()==1){
                     if (!centerDisk.isFreezing()){
                         gameControl.applyFreeze();
                         centerDisk.setFreezing(true);
+                        FreezeAnimation freezeAnimation = new FreezeAnimation(centerDisk);
+                        freezeAnimation.play();
                         ball.requestFocus();
                         timeFreeze();
                     }
@@ -379,6 +383,29 @@ public class Game extends Application {
             e.printStackTrace();
         }
 
+    }
+    public static void hint(){
+        Stage hintStage = new Stage(StageStyle.TRANSPARENT);
+        Label label = labelStyled("For shoot click : Space");
+        Label label1 = labelStyled("For freezing click : Shift");
+        Label label2 = labelStyled("For moving right click : D");
+        Label label3 = labelStyled("For moving left click : A");
+        Button button = getStyled("close");
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(label, label1, label2, label3, button);
+        hintStage.initOwner(popUpStage);
+        hintStage.initModality(Modality.APPLICATION_MODAL);
+        ColorAdjust monochrome = new ColorAdjust();
+        monochrome.setSaturation(MainMenu.getUser().getGameSetting().getIsBlackWhite());
+        vBox.setEffect(monochrome);
+        hintStage.setScene(new Scene(vBox, Color.TRANSPARENT));
+        hintStage.show();
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                hintStage.close();
+            }
+        });
     }
 
     public static void setWindDegree(WindDegree windDegree) {

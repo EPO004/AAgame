@@ -12,6 +12,7 @@ public class GameSetting {
     private int realBalls;
     private boolean soundOn;
     private int isBlackWhite;
+    private String[] keys = new String[4];
 
     public GameSetting(int difficulty, int turningVelocity, double windVelocity,
                        int freezeSecond, int mapBallFormat, int allBalls,
@@ -28,6 +29,10 @@ public class GameSetting {
         this.musicOn = musicOn;
         this.soundOn = soundOn;
         this.isBlackWhite = isBlackWhite;
+        keys[0] = "Space";
+        keys[1]="Shift";
+        keys[2] = "D";
+        keys[3] = "A";
     }
 
     public double getWindVelocity() {
@@ -144,6 +149,14 @@ public class GameSetting {
     }
     public void changeRealBalls(int amount){
         this.realBalls += amount;
+    }
+
+    public String[] getKeys() {
+        return keys;
+    }
+
+    public void setKeys(String[] keys) {
+        this.keys = keys;
     }
 }
 

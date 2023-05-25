@@ -35,6 +35,8 @@ public class GameControl {
     @FXML
     private Label ability;
     private String abilityString = "Ability : 0%";
+    @FXML
+    private Label ballCount;
 
     public GameControl() {
         gameControl = this;
@@ -44,6 +46,9 @@ public class GameControl {
         int balls = MainMenu.getUser().getGameSetting().getAllBalls();
         MainMenu.getUser().getGameSetting().setAllBalls(balls-1);
         ballLeftString = "Balls Left : "+MainMenu.getUser().getGameSetting().getAllBalls();
+        if (MainMenu.getUser().getGameSetting().getAllBalls()>MainMenu.getUser().getGameSetting().getRealBalls()/2) ballLeft.setStyle("-fx-background-color: darkred");
+        else if (MainMenu.getUser().getGameSetting().getAllBalls()>MainMenu.getUser().getGameSetting().getRealBalls()/4) ballLeft.setStyle("-fx-background-color: darkgreen");
+        else ballLeft.setStyle("-fx-background-color: blue");
         initialize();
         Ball ball1 = new Ball(centerDisk);
         if (balls==1) {

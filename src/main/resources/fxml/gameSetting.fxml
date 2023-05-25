@@ -37,6 +37,7 @@
                     <Button text="Music : " fx:id="music" styleClass="Button" onMouseClicked="#musicState"/>
                     <Button text="Sound : " fx:id="sound" styleClass="Button" onMouseClicked="#soundState"/>
                     <Button text="Black White : " fx:id="blackWhite" styleClass="Button" onMouseClicked="#blackWhiteState"/>
+                    <Button text="Change Buttons" styleClass="Button" onMouseClicked="#change"/>
                     <Button text="back" onMouseClicked="#back" styleClass="Button"/>
                 </VBox>
             </center>
